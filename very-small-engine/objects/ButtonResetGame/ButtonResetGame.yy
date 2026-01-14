@@ -1,0 +1,43 @@
+{
+  "$GMObject":"",
+  "%Name":"ButtonResetGame",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
+  "managed":true,
+  "name":"ButtonResetGame",
+  "overriddenProperties":[
+    {"$GMOverriddenProperty":"v1","%Name":"","name":"","objectId":{"name":"MenuButtonParent","path":"objects/MenuButtonParent/MenuButtonParent.yy",},"propertyId":{"name":"text","path":"objects/MenuButtonParent/MenuButtonParent.yy",},"resourceType":"GMOverriddenProperty","resourceVersion":"2.0","value":"main menu",},
+  ],
+  "parent":{
+    "name":"pause screen",
+    "path":"folders/code/objects/menu/pause screen.yy",
+  },
+  "parentObjectId":{
+    "name":"MenuButtonParent",
+    "path":"objects/MenuButtonParent/MenuButtonParent.yy",
+  },
+  "persistent":false,
+  "physicsAngularDamping":0.1,
+  "physicsDensity":0.5,
+  "physicsFriction":0.2,
+  "physicsGroup":1,
+  "physicsKinematic":false,
+  "physicsLinearDamping":0.1,
+  "physicsObject":false,
+  "physicsRestitution":0.1,
+  "physicsSensor":false,
+  "physicsShape":1,
+  "physicsShapePoints":[],
+  "physicsStartAwake":true,
+  "properties":[],
+  "resourceType":"GMObject",
+  "resourceVersion":"2.0",
+  "solid":false,
+  "spriteId":{
+    "name":"sprButton",
+    "path":"sprites/sprButton/sprButton.yy",
+  },
+  "spriteMaskId":null,
+  "visible":true,
+}

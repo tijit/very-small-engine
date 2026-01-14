@@ -1,0 +1,43 @@
+{
+  "$GMObject":"",
+  "%Name":"CherryBlank",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
+  "managed":true,
+  "name":"CherryBlank",
+  "overriddenProperties":[],
+  "parent":{
+    "name":"killer",
+    "path":"folders/level/level objects/killer.yy",
+  },
+  "parentObjectId":{
+    "name":"Killer",
+    "path":"objects/Killer/Killer.yy",
+  },
+  "persistent":false,
+  "physicsAngularDamping":0.1,
+  "physicsDensity":0.5,
+  "physicsFriction":0.2,
+  "physicsGroup":1,
+  "physicsKinematic":false,
+  "physicsLinearDamping":0.1,
+  "physicsObject":false,
+  "physicsRestitution":0.1,
+  "physicsSensor":false,
+  "physicsShape":1,
+  "physicsShapePoints":[],
+  "physicsStartAwake":true,
+  "properties":[
+    {"$GMObjectProperty":"v2","%Name":"col","filters":[],"listItems":[],"multiselect":false,"name":"col","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"c_white","varType":7,},
+  ],
+  "resourceType":"GMObject",
+  "resourceVersion":"2.0",
+  "solid":false,
+  "spriteId":{
+    "name":"sprCherryBlank",
+    "path":"sprites/sprCherryBlank/sprCherryBlank.yy",
+  },
+  "spriteMaskId":null,
+  "visible":true,
+}

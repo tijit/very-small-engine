@@ -1,0 +1,12 @@
+{
+  "$GMShader":"",
+  "%Name":"shOpaque",
+  "name":"shOpaque",
+  "parent":{
+    "name":"shader",
+    "path":"folders/code/shader.yy",
+  },
+  "resourceType":"GMShader",
+  "resourceVersion":"2.0",
+  "type":1,
+}

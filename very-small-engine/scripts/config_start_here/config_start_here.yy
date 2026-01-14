@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"config_start_here",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"config_start_here",
+  "parent":{
+    "name":"very-small-engine",
+    "path":"very-small-engine.yyp",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,43 @@
+{
+  "$GMObject":"",
+  "%Name":"Warp",
+  "eventList":[
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":{"name":"Player","path":"objects/Player/Player.yy",},"eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+  ],
+  "managed":true,
+  "name":"Warp",
+  "overriddenProperties":[],
+  "parent":{
+    "name":"level objects",
+    "path":"folders/level/level objects.yy",
+  },
+  "parentObjectId":null,
+  "persistent":false,
+  "physicsAngularDamping":0.1,
+  "physicsDensity":0.5,
+  "physicsFriction":0.2,
+  "physicsGroup":1,
+  "physicsKinematic":false,
+  "physicsLinearDamping":0.1,
+  "physicsObject":false,
+  "physicsRestitution":0.1,
+  "physicsSensor":false,
+  "physicsShape":1,
+  "physicsShapePoints":[],
+  "physicsStartAwake":true,
+  "properties":[
+    {"$GMObjectProperty":"v2","%Name":"roomTo","filters":[
+        "GMRoom",
+      ],"listItems":[],"multiselect":false,"name":"roomTo","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resource":{"name":"rTemplate","path":"rooms/rTemplate/rTemplate.yy",},"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"rTemplate","varType":5,},
+    {"$GMObjectProperty":"v2","%Name":"autosave","filters":[],"listItems":[],"multiselect":false,"name":"autosave","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
+  ],
+  "resourceType":"GMObject",
+  "resourceVersion":"2.0",
+  "solid":false,
+  "spriteId":{
+    "name":"sprWarp",
+    "path":"sprites/sprWarp/sprWarp.yy",
+  },
+  "spriteMaskId":null,
+  "visible":true,
+}
