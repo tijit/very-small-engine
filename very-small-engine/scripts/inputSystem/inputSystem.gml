@@ -21,16 +21,64 @@ function inputAddBind(verb, key) {
 	}
 }
 
-function gamepadAddBindButton(verb, button) {
-	if (button > gp_padr) {
-		
-	}
+function __button_state() constructor {
+	held = false;
+	pressed = false;
+	released = false;
+	description = "";
+	
+	static update = function() {};
 }
+
+function __button_state_keyboard(_ind) : __button_state() constructor {
+	ind = _ind;
+	description = __keyboard_keynames(ind);
+	
+	static update = function() {
+		held = keyboard_check(ind);
+		pressed = keyboard_check_pressed(ind);
+		released = keyboard_check_released(ind);
+	};
+}
+
+function __button_state_gamepad(_ind) : __button_state() constructor {
+	static stickIndex = array_get_index(__gamepad_buttons(), LSTICK_UP);
+	ind = _ind;
+	butInd = array_get_index(__gamepad_buttons(), _ind);
+	if (butInd == -1) {
+		throw $"gamepad button invalid: {ind}!";
+	}
+	
+	isStick = (butInd >= stickIndex);
+	
+	description = __gamepad_butnames(butInd);
+	
+	static update = function() {
+		if (!isStick) {
+			held = gamepad_button_check(0, ind);
+			pressed = gamepad_button_check_pressed(0, ind);
+			released = gamepad_button_check_released(0, ind);
+		}
+		else {
+			// the rest of the fucking owl
+		}
+	};
+	
+}
+
+
+
+
+//function gamepadAddBindButton(verb, button) {
+//	if (button > gp_padr) {
+		
+//	}
+//}
 
 /// stick: 0 left, 1 right
 /// dir: 0,1,2,3 (right, up left, down)
-function gamepadAddBindStick(verb, stick, dir) {
-}
+//function gamepadAddBindStick(verb, stick, dir) {
+//}
 
 function inputFindKey(key) {
 }

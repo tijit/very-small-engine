@@ -3,6 +3,20 @@ enum GAMEPAD_TYPE {
 	PLAYSTATION,
 }
 
+// TODO: return something other than zero
+__get_active_gamepad() {
+	return 0;
+}
+
+function __get_gamepad_type() {
+	// todo: get the correct one (fgu code)
+	return GAMEPAD_TYPE.XBOX;
+}
+
+function __get_padsticks() {
+	
+}
+
 function __thumbstick_state(_pad, _ax, _ay, _name) constructor {
 	pad = _pad;
 	ax = _ax;

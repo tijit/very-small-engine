@@ -128,29 +128,36 @@ function __gamepad_buttons() {
 	];
 }
 
-function __gamepad_butnames() {
-	static dat = {
-		//"xb" : [
-		//	"A", "B", "X", "Y",
-		//	"LB", "RB", "LT", "RT",
-		//	"SELECT", "START",
-		//	"LC", "RC",
-		//	"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
+function __gamepad_butnames(ind=undefined) {
+	static dat = (function() {
+		var arr = [];
+		arr[ GAMEPAD_TYPE.XBOX ] = [
+			"A", "B", "X", "Y",
+			"LB", "RB", "LT", "RT",
+			"SELECT", "START",
+			"LC", "RC",
+			"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
 			
-		//	"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
-		//	"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
-		//],
-		//"ps" : [
-		//	"Cross", "Circle", "Square", "Triangle",
-		//	"L1", "R1", "L2", "R2",
-		//	"SELECT", "START",
-		//	"L3", "R3",
-		//	"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
+			"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
+			"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
+		];
+		arr[ GAMEPAD_TYPE.PLAYSTATION ] = [
+			"Cross", "Circle", "Square", "Triangle",
+			"L1", "R1", "L2", "R2",
+			"SELECT", "START",
+			"L3", "R3",
+			"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
 			
-		//	"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
-		//	"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
-		//],
-	};
+			"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
+			"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
+		];
+	})();
+	
+	if (ind != undefined) {
+		return dat[ __get_gamepad_type() ][ ind ];
+	}
+	
+	return dat;
 }
 
 function __gamepad_butmap() {
