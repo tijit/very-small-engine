@@ -4,8 +4,14 @@ enum GAMEPAD_TYPE {
 }
 
 // TODO: return something other than zero
-__get_active_gamepad() {
-	return 0;
+function __get_active_gamepad(scan=false) {
+	static dat = {
+		"index" : 0,
+	};
+	if (scan) {
+		
+	}
+	return dat.index;
 }
 
 function __get_gamepad_type() {
@@ -13,15 +19,20 @@ function __get_gamepad_type() {
 	return GAMEPAD_TYPE.XBOX;
 }
 
-function __get_padsticks() {
+function __get_thumbstick(_stick="left", _dir="up") {
+	static dat = {
+		"left" :	new __thumbstick_state(gp_axislh, gp_axislv),
+		"right" :	new __thumbstick_state(gp_axisrh, gp_axisrv),
+	};
 	
+	return dat[$ _stick].binds[$ _dir];
 }
 
-function __thumbstick_state(_pad, _ax, _ay, _name) constructor {
-	pad = _pad;
+function __thumbstick_state(_ax, _ay) constructor {
+	static pad = __get_active_gamepad();
+	
 	ax = _ax;
 	ay = _ay;
-	name = _name;
 	
 	buttons = [
 		"up",
@@ -41,6 +52,9 @@ function __thumbstick_state(_pad, _ax, _ay, _name) constructor {
 	}
 	
 	static update = function() {
+		if (pad != __get_active_gamepad()) {
+		}
+		
 		var ux = gamepad_axis_value(pad, ax);
 		var uy = gamepad_axis_value(pad, ay);
 		

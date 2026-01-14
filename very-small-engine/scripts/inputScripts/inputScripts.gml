@@ -23,6 +23,10 @@ function inputInit() {
 	//inputAddBind("god_mode", ord("G"));
 	//inputAddBind("teleport", vk_backspace);
 	
+	var pad = __get_active_gamepad(true);
+	
+	gamepad_set_axis_deadzone(pad, gameSettings("deadzone"));
+	
 	gamepadAddBind("left", gp_padl);
 }
 
