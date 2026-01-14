@@ -8,6 +8,7 @@ function inputAddBind(verb, key) {
 			"held" : false,
 			"pressed" : false,
 			"released" : false,
+			"description" : __keyboard_keynames(key),
 		};
 	}
 	if (!array_contains(dat.keys, key)) {
@@ -20,7 +21,21 @@ function inputAddBind(verb, key) {
 	}
 }
 
-function inputCheck(verb, type) {
+function gamepadAddBindButton(verb, button) {
+	if (button > gp_padr) {
+		
+	}
+}
+
+/// stick: 0 left, 1 right
+/// dir: 0,1,2,3 (right, up left, down)
+function gamepadAddBindStick(verb, stick, dir) {
+}
+
+function inputFindKey(key) {
+}
+
+function inputCheck(verb, type, device=0) {
 	static dat = __input__();
 	var result = dat.binds[$ verb];
 	if (result == undefined) return false;
@@ -31,10 +46,14 @@ function inputCheck(verb, type) {
 
 function __input__() {
 	static dat = {
+		"device" : 0,
+		
 		// list of verbs (left, jump etc)
 		"verbs" : [],
 		// list of keyboard buttons
 		"keys" : [],
+		// list of gamepad buttons
+		"padbuttons" : [],
 		// data structure containing bind information
 		/*
 		 * binds[$ verb] : {

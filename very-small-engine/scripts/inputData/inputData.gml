@@ -1,6 +1,6 @@
 #macro vk_capslock (20)
 
-function __keyboard_keynames() {
+function __keyboard_keynames(ind=undefined) {
 	static dat = (function() {
 		var arr = array_create(256, undefined);
 		
@@ -85,6 +85,13 @@ function __keyboard_keynames() {
 		return arr;
 	})();
 	
+	// return empty string if key index is invalid
+	if (ind != undefined) {
+		if (ind < 0 || ind >= array_length(dat)) return "";
+		return dat[ind] ?? "";
+	}
+	
+	// if no input, just return entire array
 	return dat;
 }
 

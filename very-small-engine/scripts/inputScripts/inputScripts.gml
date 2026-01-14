@@ -22,6 +22,8 @@ function inputInit() {
 	//inputAddBind("quit", vk_escape);
 	//inputAddBind("god_mode", ord("G"));
 	//inputAddBind("teleport", vk_backspace);
+	
+	gamepadAddBind("left", gp_padl);
 }
 
 function inputHeld(verb) {
