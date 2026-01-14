@@ -109,6 +109,8 @@ function defaultGameSettings() {
 		
 		"fullscreen" :			false,
 		"vsync" :				false,
+		
+		"deadzone" :			0.5,
 	};
 	return dat;
 }
