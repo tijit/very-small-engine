@@ -100,34 +100,66 @@ function __keyboard_keymap() {
 	return dat;
 }
 
+#macro LSTICK_UP (9001)
+#macro LSTICK_DOWN (9002)
+#macro LSTICK_LEFT (9003)
+#macro LSTICK_RIGHT (9004)
+
+#macro RSTICK_UP (9005)
+#macro RSTICK_DOWN (9006)
+#macro RSTICK_LEFT (9007)
+#macro RSTICK_RIGHT (9008)
+
+function __gamepad_types() {
+	static types = [ "xb", "ps" ];
+	return types;
+}
+
+function __gamepad_buttons() {
+	static dat = [
+		gp_face1, gp_face2, gp_face3, gp_face4,
+		gp_shoulderl, gp_shoulderlb, gp_shoulderr, gp_shoulderrb,
+		gp_select, gp_start,
+		gp_stickl, gp_stickr,
+		gp_padu, gp_padd, gp_padl, gp_padr,
+		
+		LSTICK_UP, LSTICK_DOWN, LSTICK_LEFT, LSTICK_RIGHT,
+		RSTICK_UP, RSTICK_DOWN, RSTICK_LEFT, RSTICK_RIGHT,
+	];
+}
+
 function __gamepad_butnames() {
 	static dat = {
-		"xb" : [
-			"A", "B", "X", "Y",
-			"LB", "RB", "LT", "RT",
-			"SELECT", "START",
-			"LC", "RC",
-			"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
-			"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
-			"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
-		],
-		"ps" : [
-			"Cross", "Circle", "Square", "Triangle",
-			"L1", "R1", "L2", "R2",
-			"SELECT", "START",
-			"L3", "R3",
-			"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
-			"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
-			"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
-		],
+		//"xb" : [
+		//	"A", "B", "X", "Y",
+		//	"LB", "RB", "LT", "RT",
+		//	"SELECT", "START",
+		//	"LC", "RC",
+		//	"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
+			
+		//	"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
+		//	"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
+		//],
+		//"ps" : [
+		//	"Cross", "Circle", "Square", "Triangle",
+		//	"L1", "R1", "L2", "R2",
+		//	"SELECT", "START",
+		//	"L3", "R3",
+		//	"D-Pad Up", "D-Pad Down", "D-Pad Left", "D-Pad Right",
+			
+		//	"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
+		//	"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
+		//],
 	};
 }
 
 function __gamepad_butmap() {
-	static dat = __bimap(__gamepad_butnames());
+	static dat = {};//__bimap(__gamepad_butnames());
 	return dat;
 	
 }
+
+
 
 function __bimap(arr, result = { }) {
 	for (var i = 0; i < array_length(arr); i++) {
