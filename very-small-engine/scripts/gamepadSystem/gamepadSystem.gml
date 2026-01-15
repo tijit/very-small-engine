@@ -39,7 +39,7 @@ function __button_state_gamepad(_ind) : __button_state() constructor {
 		}
 		
 		if (pressed) {
-			show_debug_message($"gamepad button {description} pressed!");
+			__input__().gamepad_any = true;
 		}
 	};
 	
@@ -160,7 +160,7 @@ function __thumbstick_state(_axis, _sgn) constructor {
 		held = on;
 		
 		if (pressed) {
-			show_debug_message("thumbstick pressed!");
+			__input__().gamepad_any = true;
 		}
 	};
 }

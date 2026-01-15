@@ -39,11 +39,11 @@ function inputInit() {
 	gamepadAddBind("left", gp_padl);
 	gamepadAddBind("left", LSTICK_LEFT);
 	gamepadAddBind("right", gp_padr);
-	gamepadAddBind("left", LSTICK_RIGHT);
+	gamepadAddBind("right", LSTICK_RIGHT);
 	
 	gamepadAddBind("jump", gp_face1);
 	gamepadAddBind("shoot", gp_shoulderr);
-	gamepadAddBind("shoot", gp_shoulderrb);
+	gamepadAddBind("shoot", gp_face3);
 	
 	gamepadAddBind("retry", gp_face4);
 	
@@ -81,4 +81,49 @@ function inputReleased(verb) {
 	if (b == undefined) return false;
 	
 	return b.released;
+}
+
+function getMenuInput() {
+	static dat = {
+		"up" :					false,
+		"down" :				false,
+		"left" :				false,
+		"right" :				false,
+		"confirm" :				false,
+		"confirm_released" :	false,
+		"confirm_held" :		false,
+		"back" :				false,
+	};
+	
+	dat.left = keyboard_check_pressed(vk_left);
+	dat.right = keyboard_check_pressed(vk_right);
+	dat.up = keyboard_check_pressed(vk_up);
+	dat.down = keyboard_check_pressed(vk_down);
+	
+	dat.confirm = keyboard_check_pressed(vk_shift);
+	dat.confirm_held = keyboard_check(vk_shift);
+	dat.confirm_released = keyboard_check(vk_shift);
+	dat.back = keyboard_check_pressed(ord("Z"));
+	
+	if (gameSettings("gamepad_enabled")) {
+		var device = __input__().device;
+		if (device != undefined) {
+			if (gamepad_button_check_pressed(device, gp_padl)
+				|| getThumbstick(LSTICK_LEFT).pressed) dat.left = true;
+			if (gamepad_button_check_pressed(device, gp_padr)
+				|| getThumbstick(LSTICK_RIGHT).pressed) dat.right = true;
+			if (gamepad_button_check_pressed(device, gp_padu)
+				|| getThumbstick(LSTICK_UP).pressed) dat.up = true;
+			if (gamepad_button_check_pressed(device, gp_padd)
+				|| getThumbstick(LSTICK_DOWN).pressed) dat.down = true;
+			
+			if (gamepad_button_check_pressed(device, gp_face1)) dat.confirm = true;
+			if (gamepad_button_check(device, gp_face1)) dat.confirm_held = true;
+			if (gamepad_button_check_released(device, gp_face1)) dat.confirm_released = true;
+			if (gamepad_button_check_pressed(device, gp_face2)) dat.back = true;
+			
+		}
+	}
+	
+	return dat;
 }

@@ -10,7 +10,9 @@ if (--inputTimer <= 0) {
 	var keypressed = true;
 	var next = noone;
 	
-	if (keyboard_check_pressed(vk_right)) {
+	var in = getMenuInput();
+	
+	if (in.right) {
 		if (current.onRight == undefined) {
 			next = scanForNextButton(0);
 		}
@@ -18,7 +20,7 @@ if (--inputTimer <= 0) {
 			current.onRight();
 		}
 	}
-	else if (keyboard_check_pressed(vk_left)) {
+	else if (in.left) {
 		if (current.onLeft == undefined) {
 			next = scanForNextButton(180);
 		}
@@ -26,20 +28,20 @@ if (--inputTimer <= 0) {
 			current.onLeft();
 		}
 	}
-	else if (keyboard_check_pressed(vk_down)) {
+	else if (in.down) {
 		next = scanForNextButton(270);
 	}
-	else if (keyboard_check_pressed(vk_up)) {
+	else if (in.up) {
 		next = scanForNextButton(90);
 	}
-	else if (keyboard_check_pressed(vk_shift)) {
+	else if (in.confirm) {
 		with (current) {
 			if (onPress != undefined) {
 				onPress();
 			}
 		}
 	}
-	else if (keyboard_check_pressed(ord("Z"))) {
+	else if (in.back) {
 		// back
 		with (MenuParent) {
 			if (onBack != undefined) {
@@ -51,7 +53,7 @@ if (--inputTimer <= 0) {
 		keypressed = false;
 	}
 	
-	if (keyboard_check_released(vk_shift)) {
+	if (in.confirm_released) {
 		with (current) {
 			if (onRelease != undefined) {
 				onRelease();
