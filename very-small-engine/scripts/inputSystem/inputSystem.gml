@@ -16,7 +16,8 @@ function inputAddBind(verb, key) {
 
 // automatically called by World
 function inputUpdate() {
-	static padIndex = undefined;
+	static dat = __input__();
+	static padIndex = dat.device;
 	static padType = GAMEPAD_TYPE.XBOX;
 	
 	if (gameSettings("gamepad_enabled")) {
@@ -25,7 +26,7 @@ function inputUpdate() {
 				padIndex = undefined;
 			}
 			else {
-				// update thumbsticks here
+				__thumbstick_handler().update(padIndex);
 			}
 		}
 		else {
@@ -38,8 +39,9 @@ function inputUpdate() {
 			}
 		}
 	}
-	
-	var dat = __input__();
+	else {
+		padIndex = undefined;
+	}
 	
 	for (var i = 0; i < array_length(dat.verbs); i++) {
 		var verb = dat.verbs[i];
@@ -80,11 +82,15 @@ function InputBinding(_verb) constructor {
 	released = false;
 	
 	static addKeyboardBind = function(_ind) {
-		array_push(keyboardStates, new __button_state_keyboard(_ind));
+		var state = new __button_state_keyboard(_ind);
+		show_debug_message($"bind added: {verb} -> {state}");
+		array_push(keyboardStates, state);
 	};
 	
 	static addGamepadBind = function(_ind) {
-		array_push(gamepadStates, new __button_state_gamepad(_ind));
+		var state = new __button_state_gamepad(_ind)
+		show_debug_message($"bind added: {verb} -> {state}");
+		array_push(gamepadStates, state);
 	};
 	
 	static update = function(kb=true, device=undefined) {
@@ -172,7 +178,7 @@ function inputFindKey(key) {
 
 function __input__() {
 	static dat = {
-		"device" : -1,
+		"device" : undefined,
 		
 		// list of verbs (left, jump etc)
 		"verbs" : [],

@@ -174,6 +174,7 @@ function __gamepad_butnames(ind=undefined, type=undefined) {
 			"L-Stick Up", "L-Stick Down", "L-Stick Left", "L-Stick Right",
 			"R-Stick Up", "R-Stick Down", "R-Stick Left", "R-Stick Right",
 		];
+		return arr;
 	})();
 	
 	if (ind != undefined && type != undefined) {
