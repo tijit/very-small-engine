@@ -35,18 +35,6 @@ if (inputPressed("reset_game")) {
 	exit;
 }
 
-if (inputPressed("pause")) {
-	if (!gamePaused) {
-		if (instance_exists(Player)) {
-			gamePausing = true;
-		}
-	}
-	else {
-		unpauseGame();
-	}
-	exit;
-}
-
 if (inputPressed("quit")) {
 	game_end();
 	exit;
@@ -55,6 +43,18 @@ if (inputPressed("quit")) {
 if (inputPressed("retry")) {
 	if (!instance_exists(MenuCursor)) {
 		loadGameState();
+	}
+	exit;
+}
+
+if (inputPressed("pause")) {
+	if (!gamePaused) {
+		if (instance_exists(Player)) {
+			gamePausing = true;
+		}
+	}
+	else {
+		unpauseGame();
 	}
 	exit;
 }
@@ -73,4 +73,8 @@ if (inputPressed("fullscreen")) {
 		updateText();
 	}
 	updateDisplay();
+}
+
+if (inputPressed("god_mode")) {
+	engineSettings("god_mode", !engineSettings("god_mode"));
 }

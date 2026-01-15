@@ -4,6 +4,11 @@ if (dead) {
 	exit;
 }
 
+if (inputHeld("teleport_mouse")) {
+	x = rounded(mouse_x);
+	y = rounded(mouse_y);
+}
+
 checkGround();
 
 #region horizontal input

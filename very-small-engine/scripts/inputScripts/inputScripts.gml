@@ -1,5 +1,8 @@
 /// automatically called at game start. put default binds here
 function inputInit() {
+	
+	#region keyboard
+	
 	inputAddBind("left", vk_left);
 	inputAddBind("right", vk_right);
 	inputAddBind("jump", vk_shift);
@@ -22,22 +25,60 @@ function inputInit() {
 	//inputAddBind("quit", vk_escape);
 	//inputAddBind("god_mode", ord("G"));
 	//inputAddBind("teleport", vk_backspace);
+	//inputAddBind("teleport_mouse", vk_tab);
 	
-	var pad = __get_active_gamepad(true);
+	//
 	
-	gamepad_set_axis_deadzone(pad, gameSettings("deadzone"));
+	#endregion
+	
+	#region gamepad
+	// scan for pad once at start, so button names are
+	// for the correct device (xbos or PS)
+	__gamepad_scan();
 	
 	gamepadAddBind("left", gp_padl);
+	gamepadAddBind("left", LSTICK_LEFT);
+	gamepadAddBind("right", gp_padr);
+	gamepadAddBind("left", LSTICK_RIGHT);
+	
+	gamepadAddBind("jump", gp_face1);
+	gamepadAddBind("shoot", gp_shoulderr);
+	gamepadAddBind("shoot", gp_shoulderrb);
+	
+	gamepadAddBind("retry", gp_face4);
+	
+	gamepadAddBind("pause", gp_start);
+	
+	// custom controller pindings //
+	
+	//
+	
+	#endregion
 }
 
 function inputHeld(verb) {
-	return inputCheck(verb, "held");
+	static dat = __input__();
+	
+	var b = dat.binds[$ verb];
+	if (b == undefined) return false;
+	
+	return b.held;
 }
 
 function inputPressed(verb) {
-	return inputCheck(verb, "pressed");
+	static dat = __input__();
+	
+	var b = dat.binds[$ verb];
+	if (b == undefined) return false;
+	
+	return b.pressed;
 }
 
 function inputReleased(verb) {
-	return inputCheck(verb, "released");
+	static dat = __input__();
+	
+	var b = dat.binds[$ verb];
+	if (b == undefined) return false;
+	
+	return b.released;
 }

@@ -1,4 +1,30 @@
+#region keyboard constants
+
 #macro vk_capslock (20)
+
+#endregion
+
+#region gamepad constants
+
+enum GAMEPAD_TYPE {
+	XBOX,
+	PLAYSTATION,
+}
+
+// its 1006. go kick his ass
+#macro LSTICK_UP (9001)
+#macro LSTICK_DOWN (9002)
+#macro LSTICK_LEFT (9003)
+#macro LSTICK_RIGHT (9004)
+
+#macro RSTICK_UP (9005)
+#macro RSTICK_DOWN (9006)
+#macro RSTICK_LEFT (9007)
+#macro RSTICK_RIGHT (9008)
+
+#endregion
+
+#region keyboard button descriptions
 
 function __keyboard_keynames(ind=undefined) {
 	static dat = (function() {
@@ -87,28 +113,19 @@ function __keyboard_keynames(ind=undefined) {
 	
 	// return empty string if key index is invalid
 	if (ind != undefined) {
-		if (ind < 0 || ind >= array_length(dat)) return "";
-		return dat[ind] ?? "";
+		if (ind >= 0 && ind < array_length(dat)) {
+			return dat[ind] ?? "";
+		}
 	}
 	
+	return "";
 	// if no input, just return entire array
-	return dat;
+	//return dat;
 }
 
-function __keyboard_keymap() {
-	static dat = __bimap(__keyboard_keynames());
-	return dat;
-}
+#endregion
 
-#macro LSTICK_UP (9001)
-#macro LSTICK_DOWN (9002)
-#macro LSTICK_LEFT (9003)
-#macro LSTICK_RIGHT (9004)
-
-#macro RSTICK_UP (9005)
-#macro RSTICK_DOWN (9006)
-#macro RSTICK_LEFT (9007)
-#macro RSTICK_RIGHT (9008)
+#region gamepad button descriptions
 
 function __gamepad_types() {
 	static types = (function() {
@@ -130,9 +147,11 @@ function __gamepad_buttons() {
 		LSTICK_UP, LSTICK_DOWN, LSTICK_LEFT, LSTICK_RIGHT,
 		RSTICK_UP, RSTICK_DOWN, RSTICK_LEFT, RSTICK_RIGHT,
 	];
+	
+	return dat;
 }
 
-function __gamepad_butnames(ind=undefined) {
+function __gamepad_butnames(ind=undefined, type=undefined) {
 	static dat = (function() {
 		var arr = [];
 		arr[ GAMEPAD_TYPE.XBOX ] = [
@@ -157,20 +176,20 @@ function __gamepad_butnames(ind=undefined) {
 		];
 	})();
 	
-	if (ind != undefined) {
-		return dat[ __get_gamepad_type() ][ ind ];
+	if (ind != undefined && type != undefined) {
+		return dat[ type ][ ind ];
 	}
 	
-	return dat;
+	return "";
+	//return dat;
 }
 
-//function __gamepad_butmap() {
-//	static dat = {};//__bimap(__gamepad_butnames());
+#endregion
+
+//function __keyboard_keymap() {
+//	static dat = __bimap(__keyboard_keynames());
 //	return dat;
-	
 //}
-
-
 
 function __bimap(arr, result = { }) {
 	for (var i = 0; i < array_length(arr); i++) {

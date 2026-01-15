@@ -1,33 +1,144 @@
 function inputAddBind(verb, key) {
 	var dat = __input__();
-	// TODO: check if key is already being used
-	if (dat.binds[$ verb] == undefined) {
-		array_push(dat.verbs, verb);
-		dat.binds[$ verb] = {
-			"buttons" : [ ],
-			"held" : false,
-			"pressed" : false,
-			"released" : false,
-			"description" : __keyboard_keynames(key),
-		};
-	}
+	
+	var b = dat.getBind(verb);
+	
 	if (!array_contains(dat.keys, key)) {
-		array_push(dat.binds[$ verb].buttons, key);
+		//array_push(dat.binds[$ verb].buttons, key);
 		array_push(dat.keys, key);
 	}
 	else {
-		show_debug_message($"button already bound! {key}");
+		show_debug_message($"button already bound! {key}: {__keyboard_keynames(key)}");
 		//throw "button already bound!";
 	}
+	b.addKeyboardBind(key);
+}
+
+// automatically called by World
+function inputUpdate() {
+	static padIndex = undefined;
+	static padType = GAMEPAD_TYPE.XBOX;
+	
+	if (gameSettings("gamepad_enabled")) {
+		if (padIndex != undefined) {
+			if (!gamepad_is_connected(padIndex)) {
+				padIndex = undefined;
+			}
+			else {
+				// update thumbsticks here
+			}
+		}
+		else {
+			// by default, checks for a controller every one second
+			// see engineSettings("gamepad_scan_time")
+			var scan = __gamepad_scan();
+			if (scan != undefined) {
+				padIndex = scan.ind;
+				padType = scan.type;
+			}
+		}
+	}
+	
+	var dat = __input__();
+	
+	for (var i = 0; i < array_length(dat.verbs); i++) {
+		var verb = dat.verbs[i];
+		var b = dat.binds[$ verb];
+		
+		b.update(true, padIndex);
+		
+		//var verb = dat.verbs[i];
+		//var bind = dat.binds[$ verb];
+		
+		//bind.pressed = false;
+		//bind.released = false;
+		//bind.held = false;
+		
+		//for (var j = 0; j < array_length(bind.buttons); j++) {
+		//	var button = bind.buttons[j];
+			
+		//	if (keyboard_check(button)) {
+		//		bind.held = true;
+		//	}
+		//	if (keyboard_check_pressed(button)) {
+		//		bind.pressed = true;
+		//	}
+		//	if (keyboard_check_released(button)) {
+		//		bind.released = true;
+		//	}
+		//}
+	}
+}
+
+function InputBinding(_verb) constructor {
+	verb = _verb;
+	keyboardStates = [ ];
+	gamepadStates = [ ];
+	
+	held = false;
+	pressed = false;
+	released = false;
+	
+	static addKeyboardBind = function(_ind) {
+		array_push(keyboardStates, new __button_state_keyboard(_ind));
+	};
+	
+	static addGamepadBind = function(_ind) {
+		array_push(gamepadStates, new __button_state_gamepad(_ind));
+	};
+	
+	static update = function(kb=true, device=undefined) {
+		clear();
+		
+		if (kb) {
+			updateList(keyboardStates);
+		}
+		
+		if (device != undefined) {
+			updateList(gamepadStates, device);
+		}
+	};
+	
+	static updateList = function(list, device=undefined) {
+		var nstates = array_length(list);
+		for (var i = 0; i < nstates; i++) {
+			var next = list[i];
+			
+			next.update(device);
+			
+			held = next.held || held;
+			pressed = next.pressed || pressed;
+			released = next.released || released;
+		}
+	};
+	
+	static clear = function() {
+		held = false;
+		pressed = false;
+		released = false;
+	};
+	
+	static getHeld = function() {
+		return held;
+	};
+	
+	static getPressed = function() {
+		return pressed;
+	};
+	
+	static getReleased = function() {
+		return released;
+	};
 }
 
 function __button_state() constructor {
 	held = false;
 	pressed = false;
 	released = false;
+	
 	description = "";
 	
-	static update = function() {};
+	static update = function(_device=undefined) {};
 	
 	static clear = function() {
 		held = false;
@@ -40,68 +151,28 @@ function __button_state_keyboard(_ind) : __button_state() constructor {
 	ind = _ind;
 	description = __keyboard_keynames(ind);
 	
-	static update = function() {
+	static update = function(_device=undefined) {
 		held = keyboard_check(ind);
 		pressed = keyboard_check_pressed(ind);
 		released = keyboard_check_released(ind);
 	};
 }
 
-function __button_state_gamepad(_ind) : __button_state() constructor {
-	static stickIndex = array_get_index(__gamepad_buttons(), LSTICK_UP);
-	ind = _ind;
-	butInd = array_get_index(__gamepad_buttons(), _ind);
-	if (butInd == -1) {
-		throw $"gamepad button invalid: {ind}!";
-	}
-	
-	isStick = (butInd >= stickIndex);
-	
-	description = __gamepad_butnames(butInd);
-	
-	static update = function() {
-		if (!isStick) {
-			held = gamepad_button_check(0, ind);
-			pressed = gamepad_button_check_pressed(0, ind);
-			released = gamepad_button_check_released(0, ind);
-		}
-		else {
-			// the rest of the fucking owl
-			
-		}
-	};
-	
-}
-
-
-
-
-//function gamepadAddBindButton(verb, button) {
-//	if (button > gp_padr) {
-		
-//	}
-//}
-
-/// stick: 0 left, 1 right
-/// dir: 0,1,2,3 (right, up left, down)
-//function gamepadAddBindStick(verb, stick, dir) {
-//}
-
 function inputFindKey(key) {
 }
 
-function inputCheck(verb, type, device=0) {
-	static dat = __input__();
-	var result = dat.binds[$ verb];
-	if (result == undefined) return false;
-	result = result[$ type];
-	if (result == undefined) return false;
-	return result;
-}
+//function inputCheck(verb, type, device=0) {
+//	static dat = __input__();
+//	var result = dat.binds[$ verb];
+//	if (result == undefined) return false;
+//	//result = result[$ type];
+//	//if (result == undefined) return false;
+//	//return result;
+//}
 
 function __input__() {
 	static dat = {
-		"device" : 0,
+		"device" : -1,
 		
 		// list of verbs (left, jump etc)
 		"verbs" : [],
@@ -110,49 +181,15 @@ function __input__() {
 		// list of gamepad buttons
 		"padbuttons" : [],
 		// data structure containing bind information
-		/*
-		 * binds[$ verb] : {
-		 * 		buttons : array[] of keyboard buttons
-		 * 		held : true/false
-		 * 		pressed : true/false
-		 * 		released : true/false
-		 * }
-		*/
 		"binds" : {},
+		
+		"getBind" : function(verb) {
+			if (binds[$ verb] == undefined) {
+				array_push(verbs, verb);
+				binds[$ verb] = new InputBinding(verb);
+			}
+			return binds[$ verb];
+		},
 	};
 	return dat;
-}
-
-// automatically called by World
-function inputUpdate() {
-	var dat = __input__();
-	
-	if (gameSettings("gamepad_enabled")) {
-		if (!gamepad_is_connected(__get_active_gamepad_index())) {
-			__active_gamepad().index = -1;
-		}
-	}
-	
-	for (var i = 0; i < array_length(dat.verbs); i++) {
-		var verb = dat.verbs[i];
-		var bind = dat.binds[$ verb];
-		
-		bind.pressed = false;
-		bind.released = false;
-		bind.held = false;
-		
-		for (var j = 0; j < array_length(bind.buttons); j++) {
-			var button = bind.buttons[j];
-			
-			if (keyboard_check(button)) {
-				bind.held = true;
-			}
-			if (keyboard_check_pressed(button)) {
-				bind.pressed = true;
-			}
-			if (keyboard_check_released(button)) {
-				bind.released = true;
-			}
-		}
-	}
 }

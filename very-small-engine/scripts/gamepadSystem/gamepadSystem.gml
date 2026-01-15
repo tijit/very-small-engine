@@ -1,6 +1,44 @@
-enum GAMEPAD_TYPE {
-	XBOX,
-	PLAYSTATION,
+function gamepadAddBind(verb, but) {
+	var dat = __input__();
+	
+	var b = dat.getBind(verb);
+	
+	if (!array_contains(dat.padbuttons, but)) {
+		array_push(dat.padbuttons, but);
+	}
+	else {
+		show_debug_message($"button already bound! {but}: {__gamepad_butnames(but, __active_gamepad().type)}");
+	}
+	
+	b.addGamepadBind(but);
+}
+
+function __button_state_gamepad(_ind) : __button_state() constructor {
+	static stickIndex = array_get_index(__gamepad_buttons(), LSTICK_UP);
+	ind = _ind;
+	butInd = array_get_index(__gamepad_buttons(), _ind);
+	if (butInd == -1) {
+		throw $"gamepad button invalid: {ind}!";
+	}
+	
+	isStick = (butInd >= stickIndex);
+	stick = (isStick) ? getThumbstick(ind) : undefined;
+	
+	description = __gamepad_butnames(butInd);
+	
+	static update = function() {
+		if (!isStick) {
+			held = gamepad_button_check(0, ind);
+			pressed = gamepad_button_check_pressed(0, ind);
+			released = gamepad_button_check_released(0, ind);
+		}
+		else {
+			held = stick.held;
+			pressed = stick.pressed;
+			released = stick.released;
+		}
+	};
+	
 }
 
 function __active_gamepad() {
@@ -11,8 +49,8 @@ function __active_gamepad() {
 	return dat;
 }
 
-function __gamepad_determine_type(ind) {
-	var str = gamepad_get_description(i);
+function __gamepad_get_type(ind) {
+	var str = gamepad_get_description(ind);
 	if (string_length(str) > 0) {
 		str = string_lower(str);
 		if (string_count("playstation", str) > 0 || string_count("dualshock", str) > 0) {
@@ -23,97 +61,96 @@ function __gamepad_determine_type(ind) {
 	return -1;
 }
 
-function __get_active_gamepad_index(scan=false) {
-	static lastScan = current_time;
-	var dat = __active_gamepad();
-	if ((scan || dat.index == -1) && (current_time - lastScan > 1000)) {
-		lastScan = current_time;
-		var gpCount = gamepad_get_device_count();
-		for (var i = 0; i < gpCount; i++) {
-			var type = __gamepad_determine_type(i);
-			if (type > -1) {
-				dat.index = i;
-				dat.type = type;
-				
-				gamepad_set_axis_deadzone(i, gameSettings("deadzone"));
-				
-				break;
-			}
-		}
-		
-	}
-	return dat.index;
-}
-
 function __get_active_gamepad_type() {
 	var dat = __active_gamepad();
 	return dat.type;
 }
 
-function __get_thumbstick(_stick=0) {
-	static dat = {
-		"left" :	new __thumbstick_state(gp_axislh, gp_axislv),
-		"right" :	new __thumbstick_state(gp_axisrh, gp_axisrv),
-	};
-	
-	return (_stick==0) ? dat.left : dat.right;
-}
-
-function __thumbstick_update_device() {
-	__get_thumbstick(0).updatePadIndex();
-	__get_thumbstick(1).updatePadIndex();
-}
-
-function __thumbstick_state(_ax, _ay) constructor {
-	static pad = -1;
-	
-	ax = _ax;
-	ay = _ay;
-	
-	buttons = [
-		"up",
-		"down",
-		"left",
-		"right"
-	];
-	
-	binds = {};
-	
-	for (var i = 0; i < array_length(buttons); i++) {
-		binds[$ buttons[i]] = {
-			"held" : false,
-			"pressed" : false,
-			"released" : false,
-		};
+function __gamepad_scan() {
+	// ensure the first scan is always successful
+	static lastScan = -(engineSettings("gamepad_scan_time") + 1);
+	// make sure we havent scanned too recently
+	if (current_time - lastScan > engineSettings("gamepad_scan_time")) {
+		lastScan = current_time;
+		var gpCount = gamepad_get_device_count();
+		for (var i = 0; i < gpCount; i++) {
+			var type = __gamepad_get_type(i);
+			if (type > -1) {
+				show_debug_message($"gamepad found: index {i} type {type==0 ? "xbox" : "playstation"}");
+				// store and return data, set deadzone
+				var dat = __active_gamepad();
+				dat.index = i;
+				dat.type = type;
+				
+				gamepad_set_axis_deadzone(i, gameSettings("deadzone"));
+				
+				return {
+					"ind" : i,
+					"type" : type,
+				};
+				
+			}
+		}
 	}
+	return undefined;
+}
+
+function getThumbstick(stickConst) {
+	var stick = __thumbstick_handler().sticks[ stickConst - LSTICK_UP ];
+	return stick;
+}
+
+function __thumbstick_handler() {
+	static dat = (function() {
+		var dat = {
+			"sticks" : [],
+			"update" : function(device) {
+				for (var i = 0; i < 8; i++) {
+					dat.sticks[i].update(device);
+				}
+			},
+		};
+		dat.sticks[ LSTICK_UP		- LSTICK_UP ] = new __thumbstick_state(gp_axislv, -1);
+		dat.sticks[ LSTICK_DOWN		- LSTICK_UP ] = new __thumbstick_state(gp_axislv, +1);
+		dat.sticks[ LSTICK_LEFT		- LSTICK_UP ] = new __thumbstick_state(gp_axislh, -1);
+		dat.sticks[ LSTICK_RIGHT	- LSTICK_UP ] = new __thumbstick_state(gp_axislh, +1);
+									
+		dat.sticks[ RSTICK_UP		- LSTICK_UP ] = new __thumbstick_state(gp_axisrv, -1);
+		dat.sticks[ RSTICK_DOWN		- LSTICK_UP ] = new __thumbstick_state(gp_axisrv, +1);
+		dat.sticks[ RSTICK_LEFT		- LSTICK_UP ] = new __thumbstick_state(gp_axisrh, -1);
+		dat.sticks[ RSTICK_RIGHT	- LSTICK_UP ] = new __thumbstick_state(gp_axisrh, +1);
+		
+		return dat;
+	})();
+	return dat;
+}
+
+function __thumbstick_state(_axis, _sgn) constructor {
+	axis = _axis;
+	sgn = _sgn;
 	
-	static update = function() {
-		if (pad != __get_active_gamepad().index) {
+	held = false;
+	pressed = false;
+	released = false;
+	
+	static update = function(device) {
+		if (device == undefined || device < 0) {
+			held = false;
+			pressed = false;
+			released = false;
 			return;
 		}
 		
-		var ux = gamepad_axis_value(pad, ax);
-		var uy = gamepad_axis_value(pad, ay);
+		var on = (sgn * gamepad_axis_value(device, axis) > 0);
 		
-		updateDirection(binds.left, ux < 0);
-		updateDirection(binds.right, ux > 0);
-		updateDirection(binds.up, uy < 0);
-		updateDirection(binds.down, uy > 0);
-	};
-	
-	static updateDirection = function(bind, on) {
 		if (on) {
-			bind.pressed = !bind.held;
-			bind.released = false;
+			pressed = !held;
+			released = false;
 		}
 		else {
-			bind.pressed = false;
-			bind.released = bind.held;
+			pressed = false;
+			released = held;
 		}
-		bind.held = on;
-	};
-	
-	static updatePadIndex = function() {
-		pad = __get_active_gamepad_index();
+		held = on;
 	};
 }
