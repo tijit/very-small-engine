@@ -13,3 +13,6 @@ onBack = undefined;
 // for toggling or adjusting values
 onLeft = undefined;
 onRight = undefined;
+
+onBindCancel = undefined;
+onBindDelete = undefined;

@@ -14,12 +14,46 @@ function inputAddBind(verb, key) {
 	b.addKeyboardBind(key);
 }
 
+function inputBindFindKey(key) {
+	static dat = __input__();
+	if (array_contains(dat.keys, key)) {
+		for (var i = 0; i < array_length(dat.verbs); i++) {
+			var bind = dat.binds[$ dat.verbs[i]];
+			for (var j = 0; j < array_length(bind.keyboardStates); j++) {
+				var state = bind.keyboardStates[j];
+				if (state.ind == key) {
+					return {
+						"bind" : bind,
+						"key_pos" : j,
+					};
+				}
+			}
+		}
+	}
+	return noone;
+}
+
+function inputDeleteBind(verb, key) {
+}
+
+function inputSwapBind(bind1, key1, bind2, key2) {
+}
+
+function gamepadBindFindButton(but) {
+}
+
+function gamepadDeleteBind(verb, but) {
+}
+
+function gamepadSwapBind(bind1, but1, bind2, but2) {
+	
+}
+
 // automatically called by World
 function inputUpdate() {
 	static dat = __input__();
 	static padIndex = dat.device;
 	dat.gamepad_any = false;
-	//static padType = GAMEPAD_TYPE.XBOX;
 	
 	if (gameSettings("gamepad_enabled")) {
 		if (padIndex != undefined) {
@@ -36,7 +70,6 @@ function inputUpdate() {
 			var scan = __gamepad_scan();
 			if (scan != undefined) {
 				padIndex = scan.ind;
-				//padType = scan.type;
 			}
 		}
 	}
@@ -75,6 +108,7 @@ function inputUpdate() {
 
 function InputBinding(_verb) constructor {
 	verb = _verb;
+	
 	keyboardStates = [ ];
 	gamepadStates = [ ];
 	
@@ -163,9 +197,6 @@ function __button_state_keyboard(_ind) : __button_state() constructor {
 	};
 }
 
-function inputFindKey(key) {
-}
-
 //function inputCheck(verb, type, device=0) {
 //	static dat = __input__();
 //	var result = dat.binds[$ verb];
@@ -180,6 +211,8 @@ function __input__() {
 		"device" : undefined,
 		
 		"gamepad_any" : false,
+		
+		"awaiting_rebind" : false,
 		
 		// list of verbs (left, jump etc)
 		"verbs" : [],

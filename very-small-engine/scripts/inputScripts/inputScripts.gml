@@ -42,6 +42,7 @@ function inputInit() {
 	gamepadAddBind("right", LSTICK_RIGHT);
 	
 	gamepadAddBind("jump", gp_face1);
+	
 	gamepadAddBind("shoot", gp_shoulderr);
 	gamepadAddBind("shoot", gp_face3);
 	
@@ -105,6 +106,9 @@ function getMenuInput() {
 	dat.confirm_released = keyboard_check(vk_shift);
 	dat.back = keyboard_check_pressed(ord("Z"));
 	
+	dat.bind_cancel = keyboard_check_pressed(vk_escape);
+	dat.bind_delete = keyboard_check_pressed(vk_delete);
+	
 	if (gameSettings("gamepad_enabled")) {
 		var device = __input__().device;
 		if (device != undefined) {
@@ -122,6 +126,8 @@ function getMenuInput() {
 			if (gamepad_button_check_released(device, gp_face1)) dat.confirm_released = true;
 			if (gamepad_button_check_pressed(device, gp_face2)) dat.back = true;
 			
+			if (gamepad_button_check_pressed(device, gp_start)) dat.bind_cancel = true;
+			if (gamepad_button_check_pressed(device, gp_face3)) dat.bind_delete = true;
 		}
 	}
 	

@@ -7,6 +7,9 @@ if (dead) {
 if (inputHeld("teleport_mouse")) {
 	x = rounded(mouse_x);
 	y = rounded(mouse_y);
+	hspd = 0;
+	vspd = -GRAV;
+	refreshJumps();
 }
 
 checkGround();
