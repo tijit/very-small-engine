@@ -6,10 +6,24 @@ enum GAMEPAD_TYPE {
 // TODO: return something other than zero
 function __get_active_gamepad(scan=false) {
 	static dat = {
-		"index" : 0,
+		"index" : -1,
 	};
-	if (scan) {
-		
+	if (scan || dat.index == -1) {
+		/*
+		var gpCount = gamepad_get_device_count();
+			global.padType = GAMEPAD_TYPE.XBOX;
+			pad = -1;
+			for (var i = deviceInd; i < gpCount; i++) {
+				var str = string_lower(gamepad_get_description(i));
+				if (string_length(str) > 0) {
+					var playstation = string_count("playstation", str) > 0 || string_count("dualshock", str) > 0;
+					global.padType = playstation ? GAMEPAD_TYPE.PLAYSTATION : GAMEPAD_TYPE.XBOX;
+					if (yes) pad = i;
+					gamepad_set_axis_deadzone(i, gameSetting("deadzone"));
+					break;
+				}
+			}
+		*/
 	}
 	return dat.index;
 }
