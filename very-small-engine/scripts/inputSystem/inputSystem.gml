@@ -18,7 +18,7 @@ function inputAddBind(verb, key) {
 function inputUpdate() {
 	static dat = __input__();
 	static padIndex = dat.device;
-	static padType = GAMEPAD_TYPE.XBOX;
+	//static padType = GAMEPAD_TYPE.XBOX;
 	
 	if (gameSettings("gamepad_enabled")) {
 		if (padIndex != undefined) {
@@ -35,7 +35,7 @@ function inputUpdate() {
 			var scan = __gamepad_scan();
 			if (scan != undefined) {
 				padIndex = scan.ind;
-				padType = scan.type;
+				//padType = scan.type;
 			}
 		}
 	}
@@ -83,13 +83,13 @@ function InputBinding(_verb) constructor {
 	
 	static addKeyboardBind = function(_ind) {
 		var state = new __button_state_keyboard(_ind);
-		show_debug_message($"bind added: {verb} -> {state}");
+		//show_debug_message($"bind added: {verb} -> {state}");
 		array_push(keyboardStates, state);
 	};
 	
 	static addGamepadBind = function(_ind) {
 		var state = new __button_state_gamepad(_ind)
-		show_debug_message($"bind added: {verb} -> {state}");
+		//show_debug_message($"bind added: {verb} -> {state}");
 		array_push(gamepadStates, state);
 	};
 	
