@@ -11,7 +11,8 @@ function buttonTemplateToggle(option, textTrue="On", textFalse="Off") {
 	onPress = function() {
 		gameSettings(option, !gameSettings(option));
 		updateText();
-		onChange();
+		applySettings();
+		if (onChange != undefined) onChange();
 	};
 	onLeft = function() {
 		onPress();

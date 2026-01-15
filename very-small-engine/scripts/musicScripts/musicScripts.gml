@@ -3,6 +3,7 @@
 /// usage: trackName is a string, which is either 
 /// - a filename taken from MUSIC_DIRECTORY, eg for "mus\\guyrock.ogg" call playMusic("guyrock")
 /// - the name of a sound asset
+/// usually just called from a MusicPlayer instance
 function playMusic(trackName, oldFadeOutTime=1.5, newFadeInTime=0.1, loopSong=true) {
 	var states = __music_states();
 	var current = states.current;

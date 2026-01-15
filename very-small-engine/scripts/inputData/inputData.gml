@@ -111,7 +111,11 @@ function __keyboard_keymap() {
 #macro RSTICK_RIGHT (9008)
 
 function __gamepad_types() {
-	static types = [ "xb", "ps" ];
+	static types = (function() {
+		var arr = [ ];
+		arr[ GAMEPAD_TYPE.XBOX ] = "xb";
+		arr[ GAMEPAD_TYPE.PLAYSTATION ] = "ps";
+	})();
 	return types;
 }
 
@@ -160,11 +164,11 @@ function __gamepad_butnames(ind=undefined) {
 	return dat;
 }
 
-function __gamepad_butmap() {
-	static dat = {};//__bimap(__gamepad_butnames());
-	return dat;
+//function __gamepad_butmap() {
+//	static dat = {};//__bimap(__gamepad_butnames());
+//	return dat;
 	
-}
+//}
 
 
 

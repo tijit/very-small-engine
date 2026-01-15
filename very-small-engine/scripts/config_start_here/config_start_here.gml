@@ -27,8 +27,6 @@ function __init__() {
 	
 	applySettings();
 	
-	//generateNewSave();
-	
 	updateWindowCaption();
 	
 	draw_set_font(engineSettings("default_font"));

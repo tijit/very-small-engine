@@ -28,6 +28,12 @@ function __button_state() constructor {
 	description = "";
 	
 	static update = function() {};
+	
+	static clear = function() {
+		held = false;
+		pressed = false;
+		released = false;
+	};
 }
 
 function __button_state_keyboard(_ind) : __button_state() constructor {
@@ -61,6 +67,7 @@ function __button_state_gamepad(_ind) : __button_state() constructor {
 		}
 		else {
 			// the rest of the fucking owl
+			
 		}
 	};
 	
@@ -119,6 +126,12 @@ function __input__() {
 // automatically called by World
 function inputUpdate() {
 	var dat = __input__();
+	
+	if (gameSettings("gamepad_enabled")) {
+		if (!gamepad_is_connected(__get_active_gamepad_index())) {
+			__active_gamepad().index = -1;
+		}
+	}
 	
 	for (var i = 0; i < array_length(dat.verbs); i++) {
 		var verb = dat.verbs[i];

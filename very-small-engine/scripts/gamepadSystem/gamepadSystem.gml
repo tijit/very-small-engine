@@ -3,47 +3,69 @@ enum GAMEPAD_TYPE {
 	PLAYSTATION,
 }
 
-// TODO: return something other than zero
-function __get_active_gamepad(scan=false) {
+function __active_gamepad() {
 	static dat = {
 		"index" : -1,
+		"type" : GAMEPAD_TYPE.XBOX,
 	};
-	if (scan || dat.index == -1) {
-		/*
+	return dat;
+}
+
+function __gamepad_determine_type(ind) {
+	var str = gamepad_get_description(i);
+	if (string_length(str) > 0) {
+		str = string_lower(str);
+		if (string_count("playstation", str) > 0 || string_count("dualshock", str) > 0) {
+			return GAMEPAD_TYPE.PLAYSTATION;
+		}
+		return GAMEPAD_TYPE.XBOX;
+	}
+	return -1;
+}
+
+function __get_active_gamepad_index(scan=false) {
+	static lastScan = current_time;
+	var dat = __active_gamepad();
+	if ((scan || dat.index == -1) && (current_time - lastScan > 1000)) {
+		lastScan = current_time;
 		var gpCount = gamepad_get_device_count();
-			global.padType = GAMEPAD_TYPE.XBOX;
-			pad = -1;
-			for (var i = deviceInd; i < gpCount; i++) {
-				var str = string_lower(gamepad_get_description(i));
-				if (string_length(str) > 0) {
-					var playstation = string_count("playstation", str) > 0 || string_count("dualshock", str) > 0;
-					global.padType = playstation ? GAMEPAD_TYPE.PLAYSTATION : GAMEPAD_TYPE.XBOX;
-					if (yes) pad = i;
-					gamepad_set_axis_deadzone(i, gameSetting("deadzone"));
-					break;
-				}
+		for (var i = 0; i < gpCount; i++) {
+			var type = __gamepad_determine_type(i);
+			if (type > -1) {
+				dat.index = i;
+				dat.type = type;
+				
+				gamepad_set_axis_deadzone(i, gameSettings("deadzone"));
+				
+				break;
 			}
-		*/
+		}
+		
 	}
 	return dat.index;
 }
 
-function __get_gamepad_type() {
-	// todo: get the correct one (fgu code)
-	return GAMEPAD_TYPE.XBOX;
+function __get_active_gamepad_type() {
+	var dat = __active_gamepad();
+	return dat.type;
 }
 
-function __get_thumbstick(_stick="left", _dir="up") {
+function __get_thumbstick(_stick=0) {
 	static dat = {
 		"left" :	new __thumbstick_state(gp_axislh, gp_axislv),
 		"right" :	new __thumbstick_state(gp_axisrh, gp_axisrv),
 	};
 	
-	return dat[$ _stick].binds[$ _dir];
+	return (_stick==0) ? dat.left : dat.right;
+}
+
+function __thumbstick_update_device() {
+	__get_thumbstick(0).updatePadIndex();
+	__get_thumbstick(1).updatePadIndex();
 }
 
 function __thumbstick_state(_ax, _ay) constructor {
-	static pad = __get_active_gamepad();
+	static pad = -1;
 	
 	ax = _ax;
 	ay = _ay;
@@ -66,7 +88,8 @@ function __thumbstick_state(_ax, _ay) constructor {
 	}
 	
 	static update = function() {
-		if (pad != __get_active_gamepad()) {
+		if (pad != __get_active_gamepad().index) {
+			return;
 		}
 		
 		var ux = gamepad_axis_value(pad, ax);
@@ -88,5 +111,9 @@ function __thumbstick_state(_ax, _ay) constructor {
 			bind.released = bind.held;
 		}
 		bind.held = on;
+	};
+	
+	static updatePadIndex = function() {
+		pad = __get_active_gamepad_index();
 	};
 }
