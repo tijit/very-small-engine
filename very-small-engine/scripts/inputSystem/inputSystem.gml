@@ -238,6 +238,17 @@ function __input_await_rebind(device) {
 	}
 }
 
+function __input_delete_all_binds() {
+	with (__input__()) {
+		while (array_length(keys) > 0) {
+			inputDeleteKey(keys[0]);
+		}
+		while (array_length(padbuttons) > 0) {
+			gamepadDeleteButton(padbuttons[0]);
+		}
+	}
+}
+
 // struct classes for handling state
 
 /// contains all keyboard and gamepad binds for a verb

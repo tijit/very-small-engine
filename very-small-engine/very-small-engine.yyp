@@ -62,6 +62,7 @@
     {"id":{"name":"BloodParticle","path":"objects/BloodParticle/BloodParticle.yy",},},
     {"id":{"name":"BulletCollider","path":"objects/BulletCollider/BulletCollider.yy",},},
     {"id":{"name":"ButtonControls","path":"objects/ButtonControls/ButtonControls.yy",},},
+    {"id":{"name":"ButtonControlsRevert","path":"objects/ButtonControlsRevert/ButtonControlsRevert.yy",},},
     {"id":{"name":"ButtonDeleteSave","path":"objects/ButtonDeleteSave/ButtonDeleteSave.yy",},},
     {"id":{"name":"ButtonFullscreen","path":"objects/ButtonFullscreen/ButtonFullscreen.yy",},},
     {"id":{"name":"ButtonLoadGame","path":"objects/ButtonLoadGame/ButtonLoadGame.yy",},},

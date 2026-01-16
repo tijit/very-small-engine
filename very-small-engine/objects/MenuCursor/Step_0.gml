@@ -83,8 +83,6 @@ if (--inputTimer <= 0) {
 		
 		if (next != noone) {
 			if (next == current) {
-				//var ux = -dcos(lastMoveDirection) * current.width;
-				//var uy =  dsin(lastMoveDirection) * current.height;
 				var ux =  dcos(lastMoveDirection) * 32;
 				var uy = -dsin(lastMoveDirection) * 32;
 				

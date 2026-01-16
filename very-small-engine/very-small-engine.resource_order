@@ -32,6 +32,7 @@
     {"name":"BlockVisible","order":3,"path":"objects/BlockVisible/BlockVisible.yy",},
     {"name":"BloodParticle","order":4,"path":"objects/BloodParticle/BloodParticle.yy",},
     {"name":"BulletCollider","order":7,"path":"objects/BulletCollider/BulletCollider.yy",},
+    {"name":"ButtonControlsRevert","order":5,"path":"objects/ButtonControlsRevert/ButtonControlsRevert.yy",},
     {"name":"ButtonDeleteSave","order":4,"path":"objects/ButtonDeleteSave/ButtonDeleteSave.yy",},
     {"name":"ButtonFullscreen","order":7,"path":"objects/ButtonFullscreen/ButtonFullscreen.yy",},
     {"name":"ButtonLoadGame","order":3,"path":"objects/ButtonLoadGame/ButtonLoadGame.yy",},

@@ -33,7 +33,7 @@ updateText();
 onBindDelete = function() {
 	getState();
 	if (state != noone) __input_delete_key(state.ind, kb);
-	updateText();
+	with (ButtonControls) updateText();
 };
 
 onPress = function() {

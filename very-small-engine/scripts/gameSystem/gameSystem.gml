@@ -197,3 +197,17 @@ function loadControlsFromFile() {
 	}
 	return false;
 }
+
+function __controls_delete_config() {
+	if (file_exists(CONTROLS_FILENAME)) {
+		file_delete(CONTROLS_FILENAME);
+	}
+	
+	__input_delete_all_binds();
+	
+	inputInit();
+	
+	with (ButtonControls) {
+		updateText();
+	}
+}
