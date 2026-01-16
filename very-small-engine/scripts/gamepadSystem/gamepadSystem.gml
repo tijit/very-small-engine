@@ -86,7 +86,15 @@ function __gamepad_scan() {
 				// store and return data, set deadzone
 				var dat = __active_gamepad();
 				dat.index = i;
-				dat.type = type;
+				
+				if (type != dat.type) {
+					dat.type = type;
+					// refetch all button descriptions
+					__gamepad_refetch_button_names();
+					with (ButtonControls) {
+						updateText();
+					}
+				}
 				
 				__input__().device = i;
 				
@@ -101,6 +109,20 @@ function __gamepad_scan() {
 		}
 	}
 	return undefined;
+}
+
+function __gamepad_refetch_button_names() {
+	var type = __active_gamepad().type;
+	with (__input__()) {
+		for (var i = 0; i < array_length(verbs); i++) {
+			var bind = binds[$ verbs[i]];
+			for (var j = 0; j < array_length(bind.gamepadStates); j++) {
+				with (bind.gamepadStates[j]) {
+					description = __gamepad_butnames(butInd, type);
+				}
+			}
+		}
+	}
 }
 
 function getThumbstick(stickConst) {
