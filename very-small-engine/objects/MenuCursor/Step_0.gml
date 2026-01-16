@@ -1,16 +1,28 @@
 updateDrawbox(0.5);
 
+var lik = __input__().last_input_keyboard;
+if (lik != lastInputWasKeyboard) {
+	lastInputWasKeyboard = lik;
+	updateTooltip();
+}
+
 /*
 hardcoding menu input so u cant accidentally rebind it lol
 
 
 */
 
+if (__input__().awaiting_rebind) {
+	inputTimer = inputCooldown;
+}
+
 if (--inputTimer <= 0) {
 	var keypressed = true;
 	var next = noone;
 	
-	if (keyboard_check_pressed(vk_right)) {
+	var in = getMenuInput();
+	
+	if (in.right) {
 		if (current.onRight == undefined) {
 			next = scanForNextButton(0);
 		}
@@ -18,7 +30,7 @@ if (--inputTimer <= 0) {
 			current.onRight();
 		}
 	}
-	else if (keyboard_check_pressed(vk_left)) {
+	else if (in.left) {
 		if (current.onLeft == undefined) {
 			next = scanForNextButton(180);
 		}
@@ -26,20 +38,20 @@ if (--inputTimer <= 0) {
 			current.onLeft();
 		}
 	}
-	else if (keyboard_check_pressed(vk_down)) {
+	else if (in.down) {
 		next = scanForNextButton(270);
 	}
-	else if (keyboard_check_pressed(vk_up)) {
+	else if (in.up) {
 		next = scanForNextButton(90);
 	}
-	else if (keyboard_check_pressed(vk_shift)) {
+	else if (in.confirm) {
 		with (current) {
 			if (onPress != undefined) {
 				onPress();
 			}
 		}
 	}
-	else if (keyboard_check_pressed(ord("Z"))) {
+	else if (in.back) {
 		// back
 		with (MenuParent) {
 			if (onBack != undefined) {
@@ -47,11 +59,18 @@ if (--inputTimer <= 0) {
 			}
 		}
 	}
+	else if (in.bind_delete) {
+		with (current) {
+			if (onBindDelete != undefined) {
+				onBindDelete();
+			}
+		}
+	}
 	else {
 		keypressed = false;
 	}
 	
-	if (keyboard_check_released(vk_shift)) {
+	if (in.confirm_released) {
 		with (current) {
 			if (onRelease != undefined) {
 				onRelease();
@@ -64,8 +83,6 @@ if (--inputTimer <= 0) {
 		
 		if (next != noone) {
 			if (next == current) {
-				//var ux = -dcos(lastMoveDirection) * current.width;
-				//var uy =  dsin(lastMoveDirection) * current.height;
 				var ux =  dcos(lastMoveDirection) * 32;
 				var uy = -dsin(lastMoveDirection) * 32;
 				

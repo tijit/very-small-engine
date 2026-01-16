@@ -11,7 +11,8 @@ function buttonTemplateToggle(option, textTrue="On", textFalse="Off") {
 	onPress = function() {
 		gameSettings(option, !gameSettings(option));
 		updateText();
-		onChange();
+		applySettings();
+		if (onChange != undefined) onChange();
 	};
 	onLeft = function() {
 		onPress();
@@ -48,7 +49,7 @@ function buttonTemplateSlider(option, isPercentage=true, increment=0.1, low=0, h
 		gameSettings(option, val);
 		
 		updateText();
-		onChange();
+		if (onChange != undefined) onChange();
 	};
 	onLeft = function() {
 		changeValue(-1);

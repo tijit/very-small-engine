@@ -17,7 +17,45 @@ inputTimer = 0;
 inputCooldown = engineSettings("menu_input_cooldown");
 lastMoveDirection = 0;
 
-tooltip = "arrow keys - select\nshift - confirm\nz - back";
+lastInputWasKeyboard = __input__().last_input_keyboard;
+
+tooltip = "";
+updateTooltip = function() {
+	var showControls = instance_exists(ButtonControls);
+	var names = [];
+	if (lastInputWasKeyboard) {
+		names = [
+			"arrow keys",
+			"shift",
+			"del",
+			"esc",
+			"back",
+		];
+	}
+	else {
+		var padType = __active_gamepad().type;
+		var confInd = array_get_index(__gamepad_buttons(), gp_face1);
+		var delInd = array_get_index(__gamepad_buttons(), gp_face3);
+		var backInd = array_get_index(__gamepad_buttons(), gp_face2);
+		names = [
+			"dpad, L-Stick",
+			__gamepad_butnames(confInd, padType),
+			__gamepad_butnames(delInd, padType),
+			"START",
+			__gamepad_butnames(backInd, padType),
+		];
+	}
+	
+	tooltip = $"select - {names[0]}\nconfirm - {names[1]}\n";
+	if (showControls) {
+		tooltip += $"delete bind - {names[2]}\ncancel bind - {names[3]}\n";
+	}
+	tooltip += $"back - {names[4]}";
+	//tooltip = "arrow keys, d-pad, LSTICK - select\nshift, (A), cross - confirm\n";
+	//	tooltip += "delete, (X), square - delete bind\nescape, START - cancel bind\n";
+	//tooltip += "z, (B), circle - back";
+};
+updateTooltip();
 
 resetPosition = function() {
 	if (!instance_exists(MenuParent)) {

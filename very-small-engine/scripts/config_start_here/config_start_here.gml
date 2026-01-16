@@ -27,8 +27,6 @@ function __init__() {
 	
 	applySettings();
 	
-	//generateNewSave();
-	
 	updateWindowCaption();
 	
 	draw_set_font(engineSettings("default_font"));
@@ -89,6 +87,10 @@ function engineSettings(key, write=undefined) {
 		"depth_block" :			20,
 		"depth_spike" :			30,
 		
+		// if gamepad is enabled, how often should
+		// game scan for one being plugged in (in milliseconds)
+		"gamepad_scan_time" :	1000
+		
 		// TODO:
 		//"autofire" :			false,
 		//"autofire_cooldown" :	1,
@@ -109,6 +111,9 @@ function defaultGameSettings() {
 		
 		"fullscreen" :			false,
 		"vsync" :				false,
+		
+		"gamepad_enabled" :		true,
+		"deadzone" :			0.5,
 	};
 	return dat;
 }
