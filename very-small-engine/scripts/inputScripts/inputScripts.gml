@@ -11,8 +11,8 @@ function inputInit() {
 	inputAddBind("retry", ord("R"));
 	
 	// more than one button can be set to the same verb
-	inputAddBind("pause", ord("P"));
 	inputAddBind("pause", vk_escape);
+	inputAddBind("pause", ord("P"));
 	
 	inputAddBind("reset_game", vk_f2);
 	inputAddBind("fullscreen", vk_f4);
@@ -94,6 +94,8 @@ function getMenuInput() {
 		"confirm_released" :	false,
 		"confirm_held" :		false,
 		"back" :				false,
+		"bind_cancel" :			false,
+		"bind_delete" :			false,
 	};
 	
 	dat.left = keyboard_check_pressed(vk_left);

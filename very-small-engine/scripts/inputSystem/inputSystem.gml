@@ -1,52 +1,17 @@
+/// for safety, this does not handle collisions or duplicate keys
+/// delete old bind before adding new ones or use inputSwapBind(key1, key2)
 function inputAddBind(verb, key) {
 	var dat = __input__();
 	
 	var b = dat.getBind(verb);
 	
 	if (!array_contains(dat.keys, key)) {
-		//array_push(dat.binds[$ verb].buttons, key);
 		array_push(dat.keys, key);
+		b.addKeyboardBind(key);
 	}
 	else {
 		show_debug_message($"button already bound! {key}: {__keyboard_keynames(key)}");
-		//throw "button already bound!";
 	}
-	b.addKeyboardBind(key);
-}
-
-function inputBindFindKey(key) {
-	static dat = __input__();
-	if (array_contains(dat.keys, key)) {
-		for (var i = 0; i < array_length(dat.verbs); i++) {
-			var bind = dat.binds[$ dat.verbs[i]];
-			for (var j = 0; j < array_length(bind.keyboardStates); j++) {
-				var state = bind.keyboardStates[j];
-				if (state.ind == key) {
-					return {
-						"bind" : bind,
-						"key_pos" : j,
-					};
-				}
-			}
-		}
-	}
-	return noone;
-}
-
-function inputDeleteBind(verb, key) {
-}
-
-function inputSwapBind(bind1, key1, bind2, key2) {
-}
-
-function gamepadBindFindButton(but) {
-}
-
-function gamepadDeleteBind(verb, but) {
-}
-
-function gamepadSwapBind(bind1, but1, bind2, but2) {
-	
 }
 
 // automatically called by World
@@ -77,35 +42,193 @@ function inputUpdate() {
 		padIndex = undefined;
 	}
 	
+	if (dat.awaiting_rebind) {
+		if (getMenuInput().bind_cancel) {
+			dat.awaiting_rebind = false;
+			return;
+		}
+		
+		__input_await_rebind(padIndex);
+		
+		return;
+	}
+	
 	for (var i = 0; i < array_length(dat.verbs); i++) {
 		var verb = dat.verbs[i];
 		var b = dat.binds[$ verb];
 		
 		b.update(true, padIndex);
-		
-		//var verb = dat.verbs[i];
-		//var bind = dat.binds[$ verb];
-		
-		//bind.pressed = false;
-		//bind.released = false;
-		//bind.held = false;
-		
-		//for (var j = 0; j < array_length(bind.buttons); j++) {
-		//	var button = bind.buttons[j];
-			
-		//	if (keyboard_check(button)) {
-		//		bind.held = true;
-		//	}
-		//	if (keyboard_check_pressed(button)) {
-		//		bind.pressed = true;
-		//	}
-		//	if (keyboard_check_released(button)) {
-		//		bind.released = true;
-		//	}
-		//}
 	}
 }
 
+// functions for handling rebinds
+
+function inputBindFindKey(key) {
+	return __input_find_key(key, true);
+}
+
+function inputDeleteKey(key) {
+	__input_delete_key(key, true);
+}
+
+function inputSwapKey(key1, key2) {
+	__input_swap_key(key1, key2, true);
+}
+
+function gamepadBindFindButton(but) {
+	return __input_find_key(but, false);
+}
+
+function gamepadDeleteButton(but) {
+	__input_delete_key(but, false);
+}
+
+function gamepadSwapButton(but1, but2) {
+	__input_swap_key(key1, key2, false);
+}
+
+function __input_find_key(keyOrButton, kb) {
+	static dat = __input__();
+	var arr = kb ? dat.keys : dat.padbuttons;
+	if (array_contains(arr, keyOrButton)) {
+		var verbs = dat.verbs;
+		for (var i = 0; i < array_length(verbs); i++) {
+			var bind = dat.binds[$ verbs[i]];
+			var states = kb ? bind.keyboardStates : bind.gamepadStates;
+			for (var j = 0; j < array_length(states); j++) {
+				var next = states[j];
+				if (next.ind == keyOrButton) {
+					return {
+						"verb" : verbs[i],
+						"bind" : bind,
+						"state" : next,
+						"key_pos" : j,
+					};
+				}
+			}
+		}
+	}
+	return noone;
+}
+
+function __input_delete_key(keyOrButton, kb) {
+	static dat = __input__();
+	var keyInfo = __input_find_key(keyOrButton, kb);
+	if (keyInfo != noone) {
+		// delete key from array of all keys
+		var arr = kb ? dat.keys : dat.padButtons;
+		var pos = array_get_index(arr, keyOrButton);
+		array_delete(arr, pos, 1);
+		// delete key from individual bind
+		arr = kb ? keyInfo.bind.keyboardStates : keyInfo.bind.gamepadStates;
+		array_delete(arr, keyInfo.key_pos, 1);
+		
+		
+	}
+}
+
+function __input_swap_key(key1, key2, kb) {
+	var info1 = __input_find_key(key1, kb);
+	var info2 = __input_find_key(key2, kb);
+	
+	if (info1 != noone && info2 != noone) {
+		__input_delete_key(key1, kb);
+		__input_delete_key(key2, kb);
+		
+		if (kb) {
+			inputAddBind(info1.verb, key2);
+			inputAddBind(info2.verb, key1);
+		}
+		else {
+			gamepadAddBind(info1.verb, key2);
+			gamepadAddBind(info2.verb, key1);
+		}
+	}
+	else show_debug_message($"trying to swap two keys when only one is bound!");
+}
+
+function __input_await_rebind(device) {
+	var key = -1;
+	var keyInvalid = false;
+	var kb = __input__().awaiting_kb;
+	if (kb) {
+		if (keyboard_check_pressed(vk_anykey)) {
+			key = keyboard_lastkey;
+			if (string_length(__keyboard_keynames(key)) > 0) {
+			}
+			else {
+				keyInvalid = true;
+			}
+		}
+	}
+	else {
+		var buttons = __gamepad_buttons();
+		for (var i = 0; i < array_length(buttons); i++) {
+			if (i < LSTICK_UP) {
+				if (gamepad_button_check_pressed(device, buttons[i])) {
+					key = buttons[i];
+					break;
+				}
+			}
+			else {
+				if (getThumbstick(i).pressed) {
+					key = buttons[i];
+					break;
+				}
+			}
+		}
+	}
+	
+	if (key != -1) {
+		var old = __input__().awaiting_old_key;
+		if (old == key) keyInvalid = true;
+		if (!keyInvalid) {
+			var swap = __input_find_key(key, kb);
+			
+			
+			
+			if (swap == noone) {
+				if (old != -1) {
+					__input_delete_key(old, kb);
+				}
+				if (kb) {
+					inputAddBind(__input__().awaiting_verb, key);
+				}
+				else {
+					gamepadAddBind(__input__().awaiting_verb, key);
+				}
+			}
+			else {
+				if (old != -1) {
+					__input_swap_key(old, key, kb);
+				}
+				else {
+					__input_delete_key(key, kb);
+					if (kb) {
+						inputAddBind(__input__().awaiting_verb, key);
+					}
+					else {
+						gamepadAddBind(__input__().awaiting_verb, key);
+					}
+				}
+			}
+		}
+		__input__().awaiting_rebind = false;
+		__input__().awaiting_verb = "";
+		__input__().awaiting_old_key = -1;
+		
+		// update menu button display
+		with (ButtonControls) {
+			waiting = false;
+			updateText();
+		}
+	}
+}
+
+// struct classes for handling state
+
+/// contains all keyboard and gamepad binds for a verb
+/// also contains the state of those inputs
 function InputBinding(_verb) constructor {
 	verb = _verb;
 	
@@ -170,6 +293,7 @@ function InputBinding(_verb) constructor {
 	};
 }
 
+/// parent class for keyboard and gamepad binds & state
 function __button_state() constructor {
 	held = false;
 	pressed = false;
@@ -197,15 +321,8 @@ function __button_state_keyboard(_ind) : __button_state() constructor {
 	};
 }
 
-//function inputCheck(verb, type, device=0) {
-//	static dat = __input__();
-//	var result = dat.binds[$ verb];
-//	if (result == undefined) return false;
-//	//result = result[$ type];
-//	//if (result == undefined) return false;
-//	//return result;
-//}
-
+/// singleton containing references to all input state
+/// and bind information
 function __input__() {
 	static dat = {
 		"device" : undefined,
@@ -213,6 +330,9 @@ function __input__() {
 		"gamepad_any" : false,
 		
 		"awaiting_rebind" : false,
+		"awaiting_verb" : "",
+		"awaiting_kb" : true,
+		"awaiting_old_key" : -1,
 		
 		// list of verbs (left, jump etc)
 		"verbs" : [],

@@ -6,7 +6,11 @@ hardcoding menu input so u cant accidentally rebind it lol
 
 */
 
-if (--inputTimer <= 0 && !__input__().awaiting_rebind) {
+if (__input__().awaiting_rebind) {
+	inputTimer = inputCooldown;
+}
+
+if (--inputTimer <= 0) {
 	var keypressed = true;
 	var next = noone;
 	
@@ -57,6 +61,11 @@ if (--inputTimer <= 0 && !__input__().awaiting_rebind) {
 		}
 	}
 	else if (in.bind_delete) {
+		with (current) {
+			if (onBindDelete != undefined) {
+				onBindDelete();
+			}
+		}
 	}
 	else {
 		keypressed = false;

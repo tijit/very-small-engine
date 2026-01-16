@@ -8,6 +8,7 @@ verbs = [
 	"pause",
 ];
 
+// not implemented
 forbiddenKeys = [
 	//vk_escape,
 ];
@@ -17,12 +18,12 @@ pad = 32;
 x = pad;
 y = pad;
 
-w0 = room_width div 2 - x;
+w0 = 160;
 w1 = 96;
 
 var dat = __input__();
 
-var bindCount = 4;
+var bindCount = 3;
 
 for (var i = 0; i < array_length(verbs); i++) {
 	var verb = verbs[i];
@@ -45,6 +46,7 @@ for (var i = 0; i < array_length(verbs); i++) {
 			"width" :	w1,
 			"height" :	pad,
 		});
+		xx += w1 + pad;
 	}
 	
 	y += pad * 2;

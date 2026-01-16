@@ -42,6 +42,8 @@
     {"name":"ButtonResetGame","order":4,"path":"objects/ButtonResetGame/ButtonResetGame.yy",},
     {"name":"ButtonResumeGame","order":2,"path":"objects/ButtonResumeGame/ButtonResumeGame.yy",},
     {"name":"ButtonSoundVolume","order":5,"path":"objects/ButtonSoundVolume/ButtonSoundVolume.yy",},
+    {"name":"ButtonToControlsGamepad","order":13,"path":"objects/ButtonToControlsGamepad/ButtonToControlsGamepad.yy",},
+    {"name":"ButtonToControlsKeyboard","order":12,"path":"objects/ButtonToControlsKeyboard/ButtonToControlsKeyboard.yy",},
     {"name":"ButtonToOptionsMenu","order":8,"path":"objects/ButtonToOptionsMenu/ButtonToOptionsMenu.yy",},
     {"name":"ButtonToSaves","order":2,"path":"objects/ButtonToSaves/ButtonToSaves.yy",},
     {"name":"ButtonVsync","order":8,"path":"objects/ButtonVsync/ButtonVsync.yy",},

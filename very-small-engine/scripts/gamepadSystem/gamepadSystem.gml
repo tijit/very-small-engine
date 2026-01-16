@@ -5,12 +5,11 @@ function gamepadAddBind(verb, but) {
 	
 	if (!array_contains(dat.padbuttons, but)) {
 		array_push(dat.padbuttons, but);
+		b.addGamepadBind(but);
 	}
 	else {
 		show_debug_message($"button already bound! {but}: {__gamepad_butnames(but, __active_gamepad().type)}");
 	}
-	
-	b.addGamepadBind(but);
 }
 
 function __button_state_gamepad(_ind) : __button_state() constructor {
@@ -45,7 +44,7 @@ function __button_state_gamepad(_ind) : __button_state() constructor {
 }
 
 function __gamepad_button_get_index(ind) {
-	return array_get_index(__gamepad_buttons(), _ind);
+	return array_get_index(__gamepad_buttons(), ind);
 }
 
 function __active_gamepad() {
