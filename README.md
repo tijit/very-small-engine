@@ -67,5 +67,4 @@ gamepad support and button rebinding
 #  known bugs
 
 - snapform is sometimes not snapped to when moving down and player is jumping up (relative to gravity)
-- starting a new save on macOS spawns the player at (0,0)
 
