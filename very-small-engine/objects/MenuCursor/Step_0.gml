@@ -6,7 +6,7 @@ hardcoding menu input so u cant accidentally rebind it lol
 
 */
 
-if (--inputTimer <= 0) {
+if (--inputTimer <= 0 && !__input__().awaiting_rebind) {
 	var keypressed = true;
 	var next = noone;
 	

@@ -14,14 +14,14 @@ function gamepadAddBind(verb, but) {
 }
 
 function __button_state_gamepad(_ind) : __button_state() constructor {
-	static stickIndex = array_get_index(__gamepad_buttons(), LSTICK_UP);
+	static firstStickIndex = array_get_index(__gamepad_buttons(), LSTICK_UP);
 	ind = _ind;
-	butInd = array_get_index(__gamepad_buttons(), _ind);
+	butInd = __gamepad_button_get_index(_ind);
 	if (butInd == -1) {
 		throw $"gamepad button invalid: {ind}!";
 	}
 	
-	isStick = (butInd >= stickIndex);
+	isStick = (butInd >= firstStickIndex);
 	stick = (isStick) ? getThumbstick(ind) : undefined;
 	
 	description = __gamepad_butnames(butInd, __active_gamepad().type);
@@ -42,7 +42,10 @@ function __button_state_gamepad(_ind) : __button_state() constructor {
 			__input__().gamepad_any = true;
 		}
 	};
-	
+}
+
+function __gamepad_button_get_index(ind) {
+	return array_get_index(__gamepad_buttons(), _ind);
 }
 
 function __active_gamepad() {
