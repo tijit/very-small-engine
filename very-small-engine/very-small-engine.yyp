@@ -72,6 +72,7 @@
     {"id":{"name":"ButtonQuitGame","path":"objects/ButtonQuitGame/ButtonQuitGame.yy",},},
     {"id":{"name":"ButtonResetGame","path":"objects/ButtonResetGame/ButtonResetGame.yy",},},
     {"id":{"name":"ButtonResumeGame","path":"objects/ButtonResumeGame/ButtonResumeGame.yy",},},
+    {"id":{"name":"ButtonReturnToOptions","path":"objects/ButtonReturnToOptions/ButtonReturnToOptions.yy",},},
     {"id":{"name":"ButtonSoundVolume","path":"objects/ButtonSoundVolume/ButtonSoundVolume.yy",},},
     {"id":{"name":"ButtonToControlsGamepad","path":"objects/ButtonToControlsGamepad/ButtonToControlsGamepad.yy",},},
     {"id":{"name":"ButtonToControlsKeyboard","path":"objects/ButtonToControlsKeyboard/ButtonToControlsKeyboard.yy",},},

@@ -30,7 +30,7 @@
   "physicsStartAwake":true,
   "properties":[
     {"$GMObjectProperty":"v2","%Name":"kb","filters":[],"listItems":[],"multiselect":false,"name":"kb","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"true","varType":3,},
-    {"$GMObjectProperty":"v2","%Name":"ind","filters":[],"listItems":[],"multiselect":false,"name":"ind","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
+    {"$GMObjectProperty":"v2","%Name":"keyPos","filters":[],"listItems":[],"multiselect":false,"name":"keyPos","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"0","varType":0,},
     {"$GMObjectProperty":"v2","%Name":"bind","filters":[],"listItems":[],"multiselect":false,"name":"bind","rangeEnabled":false,"rangeMax":10.0,"rangeMin":0.0,"resourceType":"GMObjectProperty","resourceVersion":"2.0","value":"noone","varType":4,},
   ],
   "resourceType":"GMObject",

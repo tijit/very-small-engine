@@ -139,7 +139,7 @@ function __gamepad_types() {
 function __gamepad_buttons() {
 	static dat = [
 		gp_face1, gp_face2, gp_face3, gp_face4,
-		gp_shoulderl, gp_shoulderlb, gp_shoulderr, gp_shoulderrb,
+		gp_shoulderl, gp_shoulderr, gp_shoulderlb, gp_shoulderrb,
 		gp_select, gp_start,
 		gp_stickl, gp_stickr,
 		gp_padu, gp_padd, gp_padl, gp_padr,

@@ -42,7 +42,7 @@ for (var i = 0; i < array_length(verbs); i++) {
 		instance_create_depth(xx, y, 0, ButtonControls, {
 			"kb" :		kb,
 			"bind" :	bind,
-			"ind" :		j,
+			"keyPos" :	j,
 			"width" :	w1,
 			"height" :	pad,
 		});

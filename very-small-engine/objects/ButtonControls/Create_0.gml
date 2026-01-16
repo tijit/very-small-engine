@@ -1,14 +1,13 @@
 event_inherited();
 
 state = noone;
-keyIndex = 0;
 
 waiting = false;
 
 getState = function() {
 	var states = kb ? bind.keyboardStates : bind.gamepadStates;
-	if (ind < array_length(states)) {
-		state = states[ ind ];
+	if (keyPos < array_length(states)) {
+		state = states[ keyPos ];
 	}
 	else {
 		state = noone;
@@ -37,7 +36,8 @@ onBindCancel = function() {
 };
 
 onBindDelete = function() {
-	__input_delete_key(state.ind, kb);
+	getState();
+	if (state != noone) __input_delete_key(state.ind, kb);
 	updateText();
 };
 
@@ -49,7 +49,8 @@ onPress = function() {
 	__input__().awaiting_kb = kb;
 	__input__().awaiting_verb = bind.verb;
 	if (state != noone) {
-		__input__().awaiting_old_key = kb ? state.ind : state.butInd;
+		//__input__().awaiting_old_key = kb ? state.ind : state.butInd;
+		__input__().awaiting_old_key = kb ? state.ind : state.ind;
 	}
 	else {
 		__input__().awaiting_old_key = -1;

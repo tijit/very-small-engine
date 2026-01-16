@@ -1,5 +1,11 @@
 updateDrawbox(0.5);
 
+var lik = __input__().last_input_keyboard;
+if (lik != lastInputWasKeyboard) {
+	lastInputWasKeyboard = lik;
+	updateTooltip();
+}
+
 /*
 hardcoding menu input so u cant accidentally rebind it lol
 

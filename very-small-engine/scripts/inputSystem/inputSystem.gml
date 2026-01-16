@@ -18,7 +18,16 @@ function inputAddBind(verb, key) {
 function inputUpdate() {
 	static dat = __input__();
 	static padIndex = dat.device;
+	
+	if (keyboard_check_pressed(vk_anykey)) {
+		dat.last_input_keyboard = true;
+	}
+	else {
+		if (dat.gamepad_any) dat.last_input_keyboard = false;
+	}
 	dat.gamepad_any = false;
+	
+	
 	
 	if (gameSettings("gamepad_enabled")) {
 		if (padIndex != undefined) {
@@ -116,7 +125,7 @@ function __input_delete_key(keyOrButton, kb) {
 	var keyInfo = __input_find_key(keyOrButton, kb);
 	if (keyInfo != noone) {
 		// delete key from array of all keys
-		var arr = kb ? dat.keys : dat.padButtons;
+		var arr = kb ? dat.keys : dat.padbuttons;
 		var pos = array_get_index(arr, keyOrButton);
 		array_delete(arr, pos, 1);
 		// delete key from individual bind
@@ -164,14 +173,15 @@ function __input_await_rebind(device) {
 	else {
 		var buttons = __gamepad_buttons();
 		for (var i = 0; i < array_length(buttons); i++) {
-			if (i < LSTICK_UP) {
+			var firstStickIndex = array_get_index(buttons, LSTICK_UP);
+			if (i < firstStickIndex) {
 				if (gamepad_button_check_pressed(device, buttons[i])) {
 					key = buttons[i];
 					break;
 				}
 			}
 			else {
-				if (getThumbstick(i).pressed) {
+				if (getThumbstick(buttons[i]).pressed) {
 					key = buttons[i];
 					break;
 				}
@@ -184,8 +194,6 @@ function __input_await_rebind(device) {
 		if (old == key) keyInvalid = true;
 		if (!keyInvalid) {
 			var swap = __input_find_key(key, kb);
-			
-			
 			
 			if (swap == noone) {
 				if (old != -1) {
@@ -213,6 +221,7 @@ function __input_await_rebind(device) {
 				}
 			}
 		}
+		
 		__input__().awaiting_rebind = false;
 		__input__().awaiting_verb = "";
 		__input__().awaiting_old_key = -1;
@@ -328,6 +337,8 @@ function __input__() {
 		"device" : undefined,
 		
 		"gamepad_any" : false,
+		
+		"last_input_keyboard" : true,
 		
 		"awaiting_rebind" : false,
 		"awaiting_verb" : "",

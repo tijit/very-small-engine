@@ -43,8 +43,9 @@ function inputInit() {
 	
 	gamepadAddBind("jump", gp_face1);
 	
-	gamepadAddBind("shoot", gp_shoulderr);
 	gamepadAddBind("shoot", gp_face3);
+	gamepadAddBind("shoot", gp_shoulderr);
+	gamepadAddBind("shoot", gp_shoulderrb);
 	
 	gamepadAddBind("retry", gp_face4);
 	
