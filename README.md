@@ -54,6 +54,7 @@ gamepad support and button rebinding
 - an example tileset or two
 - setting to disable gamepad
 - setting to change gamepad thumbstick deadzone
+- more comments and documentation
 
 
 #  what is *not* in the engine?
