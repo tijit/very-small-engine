@@ -32,7 +32,7 @@ function loadGameState() {
 	// if position is undefined, the PlayerStart object will spawn Player
 	var xpos = dat.get("player_x");
 	var ypos = dat.get("player_y");
-	if (xpos != undefined && ypos != undefined) {
+	if (xpos != 0 && ypos != 0) {
 		plr = instance_create_depth(xpos, ypos, 0, Player);
 		plr.persistent = true;
 		

@@ -109,7 +109,7 @@ function getMenuInput() {
 	
 	dat.confirm = keyboard_check_pressed(vk_shift);
 	dat.confirm_held = keyboard_check(vk_shift);
-	dat.confirm_released = keyboard_check(vk_shift);
+	dat.confirm_released = keyboard_check_released(vk_shift);
 	dat.back = keyboard_check_pressed(ord("Z"));
 	
 	dat.bind_cancel = keyboard_check_pressed(vk_escape);
