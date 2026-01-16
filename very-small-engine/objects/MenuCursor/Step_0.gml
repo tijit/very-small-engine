@@ -59,13 +59,6 @@ if (--inputTimer <= 0) {
 			}
 		}
 	}
-	else if (in.bind_cancel) {
-		with (current) {
-			if (onBindCancel != undefined) {
-				onBindCancel();
-			}
-		}
-	}
 	else if (in.bind_delete) {
 		with (current) {
 			if (onBindDelete != undefined) {

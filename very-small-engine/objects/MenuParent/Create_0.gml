@@ -14,5 +14,4 @@ onBack = undefined;
 onLeft = undefined;
 onRight = undefined;
 
-onBindCancel = undefined;
 onBindDelete = undefined;

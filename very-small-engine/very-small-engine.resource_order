@@ -51,6 +51,7 @@
     {"name":"CameraParent","order":8,"path":"objects/CameraParent/CameraParent.yy",},
     {"name":"CameraSmooth","order":13,"path":"objects/CameraSmooth/CameraSmooth.yy",},
     {"name":"CherryBlank","order":9,"path":"objects/CherryBlank/CherryBlank.yy",},
+    {"name":"ControlsAutosaver","order":4,"path":"objects/ControlsAutosaver/ControlsAutosaver.yy",},
     {"name":"ControlsMenuButtonSpawner","order":1,"path":"objects/ControlsMenuButtonSpawner/ControlsMenuButtonSpawner.yy",},
     {"name":"GameOver","order":2,"path":"objects/GameOver/GameOver.yy",},
     {"name":"GravityArrowDown","order":4,"path":"objects/GravityArrowDown/GravityArrowDown.yy",},

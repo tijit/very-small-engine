@@ -151,8 +151,49 @@ function loadSettingsFromFile() {
 	}
 }
 
-//function PlayerSaveState(plr) constructor {
-//	x = plr.x;
-//	y = plr.y;
-//	roomName = room_get_name(room);
-//}
+#macro CONTROLS_FILENAME "constrols"
+
+function saveControlsToFile() {
+	var dat = __input__();
+	var struct = {};
+	for (var i = 0; i < array_length(dat.verbs); i++) {
+		var verb = dat.verbs[i];
+		struct[$ verb] = {
+			"kb" : [],
+			"pad" : [],
+		};
+		var keys = dat.binds[$ verb].keyboardStates;
+		for (var j = 0; j < array_length(keys); j++) {
+			array_push(struct[$ verb].kb, keys[j].ind);
+		}
+		buts = dat.binds[$ verb].gamepadStates;
+		for (var j = 0; j < array_length(buts); j++) {
+			array_push(struct[$ verb].pad, buts[j].ind);
+		}
+	}
+	
+	structSaveToFile(CONTROLS_FILENAME, struct);
+}
+
+function loadControlsFromFile() {
+	if (file_exists(CONTROLS_FILENAME)) {
+		var struct = structLoadFromFile(CONTROLS_FILENAME);
+		
+		var names = variable_struct_get_names(struct);
+		for (var i = 0; i < array_length(names); i++) {
+			var verb = names[i];
+			var keys = struct[$ verb].kb;
+			var buts = struct[$ verb].pad;
+			
+			for (var j = 0; j < array_length(keys); j++) {
+				inputAddBind(verb, keys[j]);
+			}
+			for (var j = 0; j < array_length(buts); j++) {
+				gamepadAddBind(verb, buts[j]);
+			}
+		}
+		
+		return true;
+	}
+	return false;
+}

@@ -82,6 +82,7 @@
     {"id":{"name":"CameraParent","path":"objects/CameraParent/CameraParent.yy",},},
     {"id":{"name":"CameraSmooth","path":"objects/CameraSmooth/CameraSmooth.yy",},},
     {"id":{"name":"CherryBlank","path":"objects/CherryBlank/CherryBlank.yy",},},
+    {"id":{"name":"ControlsAutosaver","path":"objects/ControlsAutosaver/ControlsAutosaver.yy",},},
     {"id":{"name":"ControlsMenuButtonSpawner","path":"objects/ControlsMenuButtonSpawner/ControlsMenuButtonSpawner.yy",},},
     {"id":{"name":"DeliciousFruit","path":"objects/DeliciousFruit/DeliciousFruit.yy",},},
     {"id":{"name":"GameOver","path":"objects/GameOver/GameOver.yy",},},

@@ -27,8 +27,6 @@ function inputUpdate() {
 	}
 	dat.gamepad_any = false;
 	
-	
-	
 	if (gameSettings("gamepad_enabled")) {
 		if (padIndex != undefined) {
 			if (!gamepad_is_connected(padIndex)) {
@@ -54,6 +52,10 @@ function inputUpdate() {
 	if (dat.awaiting_rebind) {
 		if (getMenuInput().bind_cancel) {
 			dat.awaiting_rebind = false;
+			with (ButtonControls) {
+				waiting = false;
+				updateText();
+			}
 			return;
 		}
 		
@@ -226,6 +228,8 @@ function __input_await_rebind(device) {
 		__input__().awaiting_verb = "";
 		__input__().awaiting_old_key = -1;
 		
+		show_debug_message("rebind script done");
+		
 		// update menu button display
 		with (ButtonControls) {
 			waiting = false;
@@ -364,3 +368,6 @@ function __input__() {
 	};
 	return dat;
 }
+
+
+

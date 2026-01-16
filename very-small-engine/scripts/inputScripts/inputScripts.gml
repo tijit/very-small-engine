@@ -1,5 +1,8 @@
 /// automatically called at game start. put default binds here
 function inputInit() {
+	if (loadControlsFromFile()) {
+		return;
+	}
 	
 	#region keyboard
 	
