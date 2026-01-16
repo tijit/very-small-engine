@@ -39,13 +39,20 @@ for (var i = 0; i < array_length(verbs); i++) {
 	xx += w0 + pad;
 	
 	for (var j = 0; j < bindCount; j++) {
-		instance_create_depth(xx, y, 0, ButtonControls, {
-			"kb" :		kb,
-			"bind" :	bind,
-			"keyPos" :	j,
-			"width" :	w1,
-			"height" :	pad,
-		});
+		if (verb == "pause" && j == 0) {
+			instance_create_depth(xx, y, 0, TextDrawer, {
+				"text" : kb ? "Escape" : "START",
+			});
+		}
+		else {
+			instance_create_depth(xx, y, 0, ButtonControls, {
+				"kb" :		kb,
+				"bind" :	bind,
+				"keyPos" :	j,
+				"width" :	w1,
+				"height" :	pad,
+			});
+		}
 		xx += w1 + pad;
 	}
 	
