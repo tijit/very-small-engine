@@ -22,8 +22,6 @@ firstFrameOfRoom = true;
 
 gameResetting = false;
 
-depth = -1000;
-
 gameTimer = current_time;
 
 room_goto(firstRoom);
