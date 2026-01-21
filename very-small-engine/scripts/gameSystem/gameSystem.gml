@@ -151,7 +151,7 @@ function loadSettingsFromFile() {
 	}
 }
 
-#macro CONTROLS_FILENAME "constrols"
+#macro CONTROLS_FILENAME "controls"
 
 function saveControlsToFile() {
 	var dat = __input__();

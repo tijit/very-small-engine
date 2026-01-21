@@ -23,6 +23,9 @@ function inputInit() {
 	inputAddBind("music_mute", ord("M"));
 	
 	// put custom binds in here //
+	// note: this code will not run if there is already a controls
+	// file saved. for now, get around this by deleting the file
+	// %localappdata%/game_name/controls
 	
 	//inputAddBind("special", ord("X"))
 	//inputAddBind("quit", vk_escape);

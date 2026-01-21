@@ -67,4 +67,5 @@ gamepad support and button rebinding
 #  known bugs
 
 - snapform is sometimes not snapped to when moving down and player is jumping up (relative to gravity)
-
+- adding a new bind to `inputInit()` will be ignored if there is already a saved controls file
+	- for now, delete %localappdata%/game_name/controls
