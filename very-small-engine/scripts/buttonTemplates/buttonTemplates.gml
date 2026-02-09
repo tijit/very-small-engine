@@ -47,8 +47,9 @@ function buttonTemplateSlider(option, isPercentage=true, increment=0.1, low=0, h
 		val = clamp(val, low, high);
 		
 		gameSettings(option, val);
-		
 		updateText();
+		applySettings();
+		
 		if (onChange != undefined) onChange();
 	};
 	onLeft = function() {
