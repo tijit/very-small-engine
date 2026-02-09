@@ -5,7 +5,7 @@ y += vspd;
 // if you want to do special collisions with triggers etc, this is the place - before wall collisions
 var temp = image_xscale;
 
-image_xscale = hspd / sprite_width;
+image_xscale = 2 * hspd / sprite_width;
 var list = getAllCollisions(x - hspd div 2, y, BulletCollider);
 var nlist = ds_list_size(list);
 if (nlist > 0) hit = true;
