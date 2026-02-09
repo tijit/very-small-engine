@@ -27,7 +27,7 @@ function __camera_set_position(xx, yy) {
 	
 	if (engineSettings("clamp_camera")) {
 		dat.x = clampCameraX(dat.x);
-		dat.y = clampCameraX(dat.y);
+		dat.y = clampCameraY(dat.y);
 	}
 	
 	if (mv != undefined) {

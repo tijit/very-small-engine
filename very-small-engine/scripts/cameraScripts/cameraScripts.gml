@@ -22,7 +22,7 @@ function clampCameraX(_x) {
 }
 
 function clampCameraY(_y) {
-	return clamp(_y, 0, room_width-GAME_WIDTH);
+	return clamp(_y, 0, room_height-GAME_HEIGHT);
 }
 
 /// calls drawCode shifted by camera coords. useful for HUD elements or rendering to surfaces
