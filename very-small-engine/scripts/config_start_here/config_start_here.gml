@@ -137,7 +137,7 @@ function masterAudio() {
 	// update music volume
 	var states = __music_states();
 	states.current.dim(1,0);
-	states.old.dim(1,0);
+	states.old.dim(0,0);
 }
 
 function updateDisplay() {
