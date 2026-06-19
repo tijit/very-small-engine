@@ -4,7 +4,12 @@ function pauseGame() {
 		gamePaused = true;
 		gamePausing = false;
 		
-		instance_deactivate_all(true);
+		//instance_deactivate_all(true);
+		with (all) {
+			if (id != other.id) {
+				instance_deactivate_object(id);
+			}
+		}
 		
 		__pause_write_screen();
 		

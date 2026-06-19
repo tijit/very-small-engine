@@ -1,8 +1,9 @@
 function saveFileString(fname, text) {
 	var buffer = buffer_create(1024, buffer_grow, 1);
-	
+	var str = "";
 	try {
-		buffer_write(buffer, buffer_string, text);
+		str = buffer_write(buffer, buffer_string, text);
+		//show_debug_message($"buffer write result: {str}");
 		buffer_save(buffer, fname);
 	}
 	catch (e) {
