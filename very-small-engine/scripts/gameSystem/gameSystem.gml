@@ -102,8 +102,9 @@ function __save_write(toFile=true) {
 function __load_save_file(num) {
 	var sav = __save_get_filename(floor(num));
 	var state = generateNewSave();
-	var exists = file_exists(sav);
-	if (exists) {
+	//var exists = file_exists(sav);
+	//show_debug_message($"file_exists: {exists}");
+	if (true) {
 		var f = structLoadFromFile(sav);
 		structCopy(state, f);
 	}

@@ -60,6 +60,7 @@ function structCopy(dest, src) {
 		}
 		else {
 			dest[$ name] = src[$ name] ?? dest[$ name];
+			//show_debug_message($"{name} = {dest[$ name]}");
 		}
 	}
 	return dest;
