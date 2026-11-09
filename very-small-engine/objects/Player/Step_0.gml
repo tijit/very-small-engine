@@ -40,22 +40,23 @@ if (inputPressed("jump") && !(onVine && engineSettings("maker_vines")) ) {
 	}
 }
 
-if (inputReleased("jump")) {
-	if (vspd < 0) {
-		vspd *= VJUMP;
-	}
-}
+// note: variable jumping used to be here but 1f jumps resulted in fulljumps while in water
 
 #endregion
 
 #region movement
 
-// note: cancels or natural 1-frame jumps in water will perform a full-jump
-// if this is relevant, move the variable jump code to be *after* this call
 handleWater(); // put cursor over function and press 'F1' to see how this works
 handleVines();
 
 capVspd(FALL_SPEED);
+
+// variable jump if jump is released
+if (inputReleased("jump")) {
+	if (vspd < 0) {
+		vspd *= VJUMP;
+	}
+}
 
 vspd += GRAV;
 
