@@ -50,6 +50,8 @@ if (inputReleased("jump")) {
 
 #region movement
 
+// note: cancels or natural 1-frame jumps in water will perform a full-jump
+// if this is relevant, move the variable jump code to be *after* this call
 handleWater(); // put cursor over function and press 'F1' to see how this works
 handleVines();
 
