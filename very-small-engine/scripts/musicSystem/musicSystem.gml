@@ -151,8 +151,5 @@ function __music_reset() {
 function __master_sounds() {
 	var vol = gameSettings("sound_volume");
 	
-	var i = 0; while (audio_exists(i)) {
-		audio_sound_gain(i, vol, 0);
-		i++;
-	}
+	audio_group_set_gain(audiogroup_default, vol, 0);
 }
