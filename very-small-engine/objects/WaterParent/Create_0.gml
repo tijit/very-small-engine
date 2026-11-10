@@ -2,9 +2,7 @@
 onTouch = undefined;
 
 onJump = function(plr) {
-	if (plr.vspd > -JUMP2) {
-		plr.doDoubleJump();
-	}
+	plr.doDoubleJump();
 }
 
 depth = engineSettings("depth_water");

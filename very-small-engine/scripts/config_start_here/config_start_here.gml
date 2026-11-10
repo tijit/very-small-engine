@@ -1,7 +1,7 @@
 #macro RUN_SPEED (3)
 #macro FALL_SPEED (9)
 #macro GRAV (0.4)
-#macro VJUMP (0.45)
+#macro VARIABLE_JUMP_MULTIPLIER (0.45)
 #macro JUMP1 (8.5)
 #macro JUMP2 (7)
 #macro JUMP_VINE (9)

@@ -54,7 +54,7 @@ capVspd(FALL_SPEED);
 // variable jump if jump is released
 if (inputReleased("jump")) {
 	if (vspd < 0) {
-		vspd *= VJUMP;
+		vspd *= VARIABLE_JUMP_MULTIPLIER;
 	}
 }
 
@@ -107,22 +107,6 @@ if (inputPressed("shoot")) {
 			vspd : 0,
 		});
 	}
-}
-
-#endregion
-
-#region death conditions
-
-if (place_meeting(x, y, Killer)) {
-	killPlayer();
-}
-
-if (y > room_height && engineSettings("die_below_floor")) {
-	killPlayer();
-}
-
-if (y < 0 && engineSettings("die_above_ceiling")) {
-	killPlayer();
 }
 
 #endregion
